@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dental AI Diagnostic Study</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .hidden { display: none; }
+        .radiograph-img { max-width: 600px; height: auto; border: 2px solid #555; margin: 0 auto; display: block; }
+        .ai-overlay { border: 3px solid #f87171; padding: 10px; color: #f87171; font-weight: bold; margin-top: 10px; text-align: center; }
+    </style>
+</head>
+<body class="bg-gray-100 font-sans p-8">
+
+    <div id="app" class="max-w-4xl mx-auto bg-white p-6 rounded shadow">
+        <div id="screen-pre" class="screen">
+            <h2 class="text-2xl font-bold mb-4">Pre-Experiment Questionnaire</h2>
+            <div class="space-y-4">
+                <input type="number" id="age" placeholder="Age" class="border p-2 w-full">
+                <input type="text" id="specialty" placeholder="Specialty" class="border p-2 w-full">
+                <input type="number" id="experience" placeholder="Years of Experience" class="border p-2 w-full">
+                <hr>
+                <h3 class="font-bold">Trust in AI-Generated Health Advice Scale (1-5)</h3>
+                <input type="range" id="trust-scale" min="1" max="5" value="3" class="w-full">
+                <div class="flex justify-between text-xs"><span>Strongly Disagree</span><span>Strongly Agree</span></div>
+                <button onclick="startExperiment()" class="bg-blue-600 text-white px-6 py-2 rounded">Start Experiment</button>
+            </div>
+        </div>
+
+        <div id="screen-task" class="screen hidden">
+            <div class="flex justify-between mb-4">
+                <span id="case-progress" class="font-bold text-gray-600"></span>
+                <span id="interface-type" class="text-sm italic text-blue-600"></span>
+            </div>
+            
+            <img id="radiograph-display" class="radiograph-img mb-4" src="" alt="Dental Radiograph">
+
+            <div id="ai-recommendation" class="ai-overlay hidden mb-4">
+                AI RECOMMENDATION: <span id="ai-text"></span>
+            </div>
+
+            <div id="diagnostic-input" class="space-y-4">
+                <p class="font-bold">Diagnosis: Presence of proximal caries?</p>
+                <div class="flex space-x-4">
+                    <button id="btn-sound" onclick="recordDiagnosis('Sound')" class="bg-gray-200 px-4 py-2 rounded hover:bg-gray-300">Sound Enamel</button>
+                    <button id="btn-caries" onclick="recordDiagnosis('Caries')" class="bg-gray-200 px-4 py-2 rounded hover:bg-gray-300">Carious Lesion</button>
+                </div>
+                
+                <div id="confidence-container" class="hidden">
+                    <p class="mt-4 font-bold">Diagnostic Confidence (1-5):</p>
+                    <input type="range" id="confidence-scale" min="1" max="5" value="3" class="w-full">
+                    <button id="next-btn" onclick="handleWorkflowNext()" class="mt-4 bg-green-600 text-white px-6 py-2 rounded">Submit Diagnosis</button>
+                </div>
+            </div>
+
+            <div id="optional-ai-trigger" class="hidden mt-4">
+                <button onclick="showOptionalAI()" class="bg-purple-600 text-white px-4 py-2 rounded">View AI Recommendation</button>
+            </div>
+        </div>
+
+        <div id="screen-post" class="screen hidden">
+            <h2 class="text-2xl font-bold mb-4">NASA-TLX Workload Assessment</h2>
+            <div id="tlx-questions" class="space-y-4"></div>
+            <button onclick="finishExperiment()" class="mt-6 bg-blue-600 text-white px-6 py-2 rounded">Download CSV Results</button>
+        </div>
+    </div>
+
+<script>
+    let trialQueue = [];
+    let currentTrialIndex = 0;
+    let data = { pre: {}, trials: [], post: {} };
+    let startTime, initialDiagnosisTime, changeActionTime;
+    let currentWorkflowStep = 'initial';
+
+    function initTrials() {
+        // Map specific images to experimental conditions
+        const combinations = [
+            { interface: 'Staged', type: 'Correct', img: 'staged_correct.jpg' },
+            { interface: 'Staged', type: 'Incorrect', img: 'staged_incorrect.jpg' },
+            { interface: 'Immediate', type: 'Correct', img: 'immediate_correct.jpg' },
+            { interface: 'Immediate', type: 'Incorrect', img: 'immediate_incorrect.jpg' },
+            { interface: 'Optional', type: 'Correct', img: 'optional_correct.jpg' },
+            { interface: 'Optional', type: 'Incorrect', img: 'optional_incorrect.jpg' },
+            { interface: 'None', type: 'Correct', img: 'none_correct.jpg' },
+            { interface: 'None', type: 'Incorrect', img: 'none_incorrect.jpg' }
+        ];
+
+        // Randomize order
+        trialQueue = combinations.sort(() => Math.random() - 0.5);
+    }
+
+    function startExperiment() {
+        data.pre = {
+            age: document.getElementById('age').value,
+            specialty: document.getElementById('specialty').value,
+            experience: document.getElementById('experience').value,
+            trust: document.getElementById('trust-scale').value
+        };
+        initTrials();
+        document.getElementById('screen-pre').classList.add('hidden');
+        document.getElementById('screen-task').classList.remove('hidden');
+        loadTrial();
+    }
+
+    function loadTrial() {
+        const trial = trialQueue[currentTrialIndex];
+        currentWorkflowStep = 'initial';
+        startTime = performance.now();
+        
+        document.getElementById('case-progress').innerText = `Case ${currentTrialIndex + 1} of 8`;
+        document.getElementById('interface-type').innerText = `Workflow: ${trial.interface}`;
+        document.getElementById('radiograph-display').src = trial.img;
+        document.getElementById('ai-recommendation').classList.add('hidden');
+        document.getElementById('confidence-container').classList.add('hidden');
+        document.getElementById('optional-ai-trigger').classList.add('hidden');
+        
+        // AI Logic: Correct cases match ground truth (Caries). Incorrect cases suggest Sound.
+        document.getElementById('ai-text').innerText = (trial.type === 'Correct') ? "Carious Lesion Detected" : "Sound Enamel (No Caries)";
+
+        if (trial.interface === 'Immediate') {
+            document.getElementById('ai-recommendation').classList.remove('hidden');
+        }
+    }
+
+    function recordDiagnosis(diag) {
+        const trial = trialQueue[currentTrialIndex];
+        const now = performance.now();
+
+        if (currentWorkflowStep === 'initial') {
+            initialDiagnosisTime = (now - startTime) / 1000;
+            trial.initialDiagnosis = diag;
+            document.getElementById('confidence-container').classList.remove('hidden');
+            
+            if (trial.interface === 'Staged') {
+                document.getElementById('ai-recommendation').classList.remove('hidden');
+                currentWorkflowStep = 'ai_reveal';
+                changeActionTime = performance.now();
+            } else if (trial.interface === 'Optional') {
+                document.getElementById('optional-ai-trigger').classList.remove('hidden');
+            }
+        } else {
+            trial.finalDiagnosis = diag;
+            trial.timeToChange = (now - changeActionTime) / 1000;
+        }
+    }
+
+    function showOptionalAI() {
+        document.getElementById('ai-recommendation').classList.remove('hidden');
+        document.getElementById('optional-ai-trigger').classList.add('hidden');
+        currentWorkflowStep = 'ai_reveal';
+        changeActionTime = performance.now();
+    }
+
+    function handleWorkflowNext() {
+        const trial = trialQueue[currentTrialIndex];
+        trial.confidence = document.getElementById('confidence-scale').value;
+        trial.initialTime = initialDiagnosisTime;
+        if (!trial.finalDiagnosis) trial.finalDiagnosis = trial.initialDiagnosis;
+
+        data.trials.push(trial);
+        currentTrialIndex++;
+
+        if (currentTrialIndex < trialQueue.length) {
+            loadTrial();
+        } else {
+            showPostSurvey();
+        }
+    }
+
+    function showPostSurvey() {
+        document.getElementById('screen-task').classList.add('hidden');
+        document.getElementById('screen-post').classList.remove('hidden');
+        const dimensions = ["Mental Demand", "Physical Demand", "Temporal Demand", "Performance", "Effort", "Frustration"];
+        const container = document.getElementById('tlx-questions');
+        dimensions.forEach(q => {
+            container.innerHTML += `<div class="mb-4"><p class="font-semibold">${q}</p><input type="range" id="tlx-${q}" min="1" max="20" class="w-full"></div>`;
+        });
+    }
+
+    function finishExperiment() {
+        const tlxDimensions = ["Mental Demand", "Physical Demand", "Temporal Demand", "Performance", "Effort", "Frustration"];
+        tlxDimensions.forEach(q => { data.post[q] = document.getElementById(`tlx-${q}`).value; });
+
+        const csvContent = convertToCSV(data);
+        const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = "dental_ai_results.csv";
+        link.click();
+    }
+
+    function convertToCSV(obj) {
+        const headers = ["Age", "Specialty", "Experience", "Trust", "Trial", "Condition", "AI_Accuracy", "Initial_Diag", "Final_Diag", "Initial_RT", "Change_RT", "Confidence", "Mental", "Physical", "Temporal", "Performance", "Effort", "Frustration"];
+        const rows = obj.trials.map((t, i) => [
+            obj.pre.age, `"${obj.pre.specialty}"`, obj.pre.experience, obj.pre.trust, i + 1, t.interface, t.type, t.initialDiagnosis, t.finalDiagnosis, t.initialTime.toFixed(2), (t.timeToChange || 0).toFixed(2), t.confidence, obj.post["Mental Demand"], obj.post["Physical Demand"], obj.post["Temporal Demand"], obj.post["Performance"], obj.post["Effort"], obj.post["Frustration"]
+        ].join(","));
+        return [headers.join(","), ...rows].join("\r\n");
+    }
+</script>
+</body>
+</html>
