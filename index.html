@@ -28,7 +28,7 @@
                 </ul>
                 <p class="mt-2 text-sm italic">By clicking "I Agree", you confirm you are a dental professional and consent to the use of your anonymized data for research purposes.</p>
             </div>
-            <button type="button" onclick="showScreen('screen-pre')" class="bg-blue-600 text-white px-8 py-3 rounded font-bold hover:bg-blue-700">I Agree & Continue</button>
+            <button type="button" onclick="showScreen('screen-pre')" class="bg-blue-600 text-white px-8 py-3 rounded font-bold hover:bg-blue-700 transition">I Agree & Continue</button>
         </div>
 
         <div id="screen-pre" class="screen hidden">
@@ -43,10 +43,21 @@
                 </select>
                 <input type="number" id="experience" placeholder="Years of Experience" min="1" class="border p-2 w-full">
                 <hr>
+                
                 <h3 class="font-bold">Trust in Dental AI (1-5)</h3>
-                <input type="range" id="trust-scale" min="1" max="5" value="3" class="w-full">
-                <div class="flex justify-between text-xs"><span>No Trust</span><span>High Trust</span></div>
-                <button onclick="startExperiment()" class="bg-blue-600 text-white px-6 py-2 rounded mt-4">Begin Diagnostic Task</button>
+                <div class="flex justify-between items-center bg-gray-50 p-4 border rounded">
+                    <span class="text-sm text-gray-600 font-bold">No Trust</span>
+                    <div class="flex space-x-6">
+                        <label class="flex flex-col items-center cursor-pointer"><input type="radio" name="trust-scale" value="1" class="mb-1"><span>1</span></label>
+                        <label class="flex flex-col items-center cursor-pointer"><input type="radio" name="trust-scale" value="2" class="mb-1"><span>2</span></label>
+                        <label class="flex flex-col items-center cursor-pointer"><input type="radio" name="trust-scale" value="3" checked class="mb-1"><span>3</span></label>
+                        <label class="flex flex-col items-center cursor-pointer"><input type="radio" name="trust-scale" value="4" class="mb-1"><span>4</span></label>
+                        <label class="flex flex-col items-center cursor-pointer"><input type="radio" name="trust-scale" value="5" class="mb-1"><span>5</span></label>
+                    </div>
+                    <span class="text-sm text-gray-600 font-bold">High Trust</span>
+                </div>
+                
+                <button type="button" onclick="startExperiment()" class="bg-blue-600 text-white px-6 py-2 rounded mt-4 hover:bg-blue-700 transition">Begin Diagnostic Task</button>
             </div>
         </div>
 
@@ -57,22 +68,29 @@
             <div id="diagnostic-input" class="space-y-4">
                 <p class="font-bold">Diagnosis: Is there presence of Proximal Caries?</p>
                 <div class="flex space-x-4">
-                    <button onclick="recordDiagnosis('Sound')" class="bg-gray-200 px-4 py-2 rounded hover:bg-gray-300">Sound Tooth</button>
-                    <button onclick="recordDiagnosis('Enamel Caries')" class="bg-gray-200 px-4 py-2 rounded hover:bg-gray-300">Carious Lesion</button>
+                    <button type="button" onclick="recordDiagnosis('Sound')" class="bg-gray-200 px-4 py-2 rounded hover:bg-gray-300 font-bold border border-gray-400 transition">Sound Tooth</button>
+                    <button type="button" onclick="recordDiagnosis('Caries')" class="bg-gray-200 px-4 py-2 rounded hover:bg-gray-300 font-bold border border-gray-400 transition">Carious Lesion</button>
                 </div>
-                <div id="confidence-container" class="hidden">
-                    <p class="mt-4 font-bold">Confidence (1-5):</p>
-                    <input type="range" id="confidence-scale" min="1" max="5" value="3" class="w-full">
-                    <button onclick="handleWorkflowNext()" class="mt-4 bg-green-600 text-white px-6 py-2 rounded">Submit</button>
+                
+                <div id="confidence-container" class="hidden bg-gray-50 p-4 border rounded mt-4">
+                    <p class="font-bold mb-3">Confidence in your diagnosis (1-5):</p>
+                    <div class="flex space-x-8 justify-center mb-4">
+                        <label class="flex flex-col items-center cursor-pointer"><input type="radio" name="confidence-scale" value="1" class="mb-1"><span>1</span></label>
+                        <label class="flex flex-col items-center cursor-pointer"><input type="radio" name="confidence-scale" value="2" class="mb-1"><span>2</span></label>
+                        <label class="flex flex-col items-center cursor-pointer"><input type="radio" name="confidence-scale" value="3" checked class="mb-1"><span>3</span></label>
+                        <label class="flex flex-col items-center cursor-pointer"><input type="radio" name="confidence-scale" value="4" class="mb-1"><span>4</span></label>
+                        <label class="flex flex-col items-center cursor-pointer"><input type="radio" name="confidence-scale" value="5" class="mb-1"><span>5</span></label>
+                    </div>
+                    <button type="button" onclick="handleWorkflowNext()" class="bg-green-600 text-white px-6 py-2 rounded w-full font-bold hover:bg-green-700 transition">Submit Diagnosis</button>
                 </div>
             </div>
-            <div id="optional-ai-trigger" class="hidden mt-4"><button onclick="showOptionalAI()" class="bg-purple-600 text-white px-4 py-2 rounded text-sm">View AI Advice</button></div>
+            <div id="optional-ai-trigger" class="hidden mt-4 text-center"><button type="button" onclick="showOptionalAI()" class="bg-purple-600 text-white px-6 py-2 rounded text-sm font-bold hover:bg-purple-700 transition">View Optional AI Advice</button></div>
         </div>
 
         <div id="screen-post" class="screen hidden">
             <h2 class="text-2xl font-bold mb-4">NASA-TLX Workload</h2>
             <div id="tlx-questions" class="space-y-4"></div>
-            <button onclick="finishExperiment()" class="mt-6 bg-blue-600 text-white px-6 py-2 rounded">Final Submit</button>
+            <button type="button" onclick="finishExperiment()" class="mt-6 bg-blue-600 text-white px-8 py-3 rounded font-bold hover:bg-blue-700 w-full text-lg transition">Final Submit</button>
         </div>
     </div>
 
@@ -88,7 +106,13 @@
     }
 
     function startExperiment() {
-        data.pre = { age: document.getElementById('age').value, specialty: document.getElementById('specialty').value, experience: document.getElementById('experience').value, trust: document.getElementById('trust-scale').value };
+        data.pre = { 
+            age: document.getElementById('age').value, 
+            specialty: document.getElementById('specialty').value, 
+            experience: document.getElementById('experience').value, 
+            trust: document.querySelector('input[name="trust-scale"]:checked').value 
+        };
+        
         trialQueue = [
             { interface: 'Staged', type: 'Correct', img: 'staged_correct.png', groundTruth: 'Caries', aiText: 'Carious Lesion Detected' },
             { interface: 'Staged', type: 'Incorrect', img: 'staged_incorrect.png', groundTruth: 'Caries', aiText: 'No Lesion Detected' },
@@ -99,6 +123,7 @@
             { interface: 'None', type: 'Correct', img: 'none_correct.png', groundTruth: 'Sound', aiText: 'No AI' },
             { interface: 'None', type: 'Incorrect', img: 'none_incorrect.png', groundTruth: 'Caries', aiText: 'No AI' }
         ].sort(() => Math.random() - 0.5);
+        
         showScreen('screen-task');
         loadTrial();
     }
@@ -109,9 +134,12 @@
         startTime = performance.now();
         document.getElementById('case-progress').innerText = `Case ${currentTrialIndex + 1}/8`;
         document.getElementById('radiograph-display').src = trial.img;
+        
         document.getElementById('ai-recommendation').classList.add('hidden');
         document.getElementById('confidence-container').classList.add('hidden');
         document.getElementById('optional-ai-trigger').classList.add('hidden');
+        document.querySelector('input[name="confidence-scale"][value="3"]').checked = true;
+        
         document.getElementById('ai-text').innerText = trial.aiText;
         if (trial.interface === 'Immediate') document.getElementById('ai-recommendation').classList.remove('hidden');
     }
@@ -144,15 +172,22 @@
 
     function handleWorkflowNext() {
         const trial = trialQueue[currentTrialIndex];
-        trial.confidence = document.getElementById('confidence-scale').value;
+        trial.confidence = document.querySelector('input[name="confidence-scale"]:checked').value;
         trial.initialTime = initialDiagnosisTime;
+        
         if (!trial.finalDiagnosis) trial.finalDiagnosis = trial.initialDiagnosis;
         trial.isCorrect = (trial.finalDiagnosis === trial.groundTruth);
+        
         data.trials.push(trial);
-        if (++currentTrialIndex < 8) loadTrial(); else {
+        
+        if (++currentTrialIndex < 8) {
+            loadTrial(); 
+        } else {
             showScreen('screen-post');
             const dims = ["Mental Demand", "Physical Demand", "Temporal Demand", "Performance", "Effort", "Frustration"];
             const cont = document.getElementById('tlx-questions');
+            cont.innerHTML = "";
+            
             dims.forEach(q => {
                 let safeName = q.replace(/\s+/g, '');
                 let radioHTML = `<div class="flex flex-wrap gap-2 mt-2">`;
@@ -166,23 +201,24 @@
                 radioHTML += `</div>`;
                 cont.innerHTML += `<div class='mb-4 bg-gray-50 p-4 border rounded'><p class='font-bold text-gray-800'>${q}</p>${radioHTML}</div>`;
             });
-    }
+        } // Fixed missing closing bracket
+    } // Fixed missing closing bracket
 
     async function finishExperiment() {
         const dims = ["Mental Demand", "Physical Demand", "Temporal Demand", "Performance", "Effort", "Frustration"];
-        dims.forEach(q => data.post[q] = document.getElementById(`tlx-${q}`).value);
+        dims.forEach(q => {
+            let safeName = q.replace(/\s+/g, '');
+            data.post[q] = document.querySelector(`input[name="tlx-${safeName}"]:checked`).value;
+        });
        
-        // --- LOADING STATE START ---
         const submitBtn = document.querySelector("#screen-post button");
         submitBtn.innerText = "Sending Data... Please Wait";
-        submitBtn.disabled = true; // Physically prevents double-clicking
-        submitBtn.classList.add("opacity-50", "cursor-not-allowed"); // Greys it out using Tailwind
-        // --- LOADING STATE END ---
+        submitBtn.disabled = true; 
+        submitBtn.classList.add("opacity-50", "cursor-not-allowed"); 
 
         try {
             await fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(data) });
             
-            // Success State
             document.getElementById('screen-post').innerHTML = `
                 <div class="text-center py-8">
                     <svg class="w-16 h-16 text-green-500 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
@@ -191,7 +227,6 @@
                 </div>`;
                 
         } catch (e) { 
-            // Error State: Re-enable the button so they can try again
             alert("Submission failed. Please check your connection and try again."); 
             submitBtn.innerText = "Final Submit";
             submitBtn.disabled = false;
