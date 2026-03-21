@@ -18,12 +18,13 @@
         <div id="screen-consent" class="screen">
             <h1 class="text-2xl font-bold mb-4">Informed Consent</h1>
             <div class="prose text-gray-700 mb-6 bg-gray-50 p-4 border rounded">
-                <p><strong>Project:</strong> AI Reliance in Dental Caries Diagnosis</p>
+                <p><strong>Project:</strong> AI Assistance in Diagnosing Proximal Caries through Bite Wing Radiographs</p>
                 <p>This study evaluates how dental professionals interact with AI-based decision support systems. You will view 8 radiographs and provide diagnoses.</p>
                 <ul class="list-disc ml-6 mt-2">
                     <li>Your participation is voluntary.</li>
                     <li>Data is collected anonymously.</li>
                     <li>The task takes approximately 10–15 minutes.</li>
+                    <li>You can choose to opt out of this task at any time.</li>
                 </ul>
                 <p class="mt-2 text-sm italic">By clicking "I Agree", you confirm you are a dental professional and consent to the use of your anonymized data for research purposes.</p>
             </div>
@@ -33,9 +34,14 @@
         <div id="screen-pre" class="screen hidden">
             <h2 class="text-2xl font-bold mb-4">Participant Information</h2>
             <div class="space-y-4">
-                <input type="number" id="age" placeholder="Age" class="border p-2 w-full">
-                <input type="text" id="specialty" placeholder="Specialty" class="border p-2 w-full">
-                <input type="number" id="experience" placeholder="Years of Experience" class="border p-2 w-full">
+                <input type="number" id="age" placeholder="Age" min="18" class="border p-2 w-full">
+                <select id="specialty" class="border p-2 w-full">
+                    <option value="" disabled selected>Select Specialty</option>
+                    <option value="Student">Student</option>
+                    <option value="General Dentist">General Dentist</option>
+                    <option value="Speciality Dentist">Speciality Dentist</option>
+                </select>
+                <input type="number" id="experience" placeholder="Years of Experience" min="1" class="border p-2 w-full">
                 <hr>
                 <h3 class="font-bold">Trust in Dental AI (1-5)</h3>
                 <input type="range" id="trust-scale" min="1" max="5" value="3" class="w-full">
@@ -49,10 +55,10 @@
             <img id="radiograph-display" class="radiograph-img mb-4" src="">
             <div id="ai-recommendation" class="ai-overlay hidden mb-4">AI RECOMMENDATION: <span id="ai-text"></span></div>
             <div id="diagnostic-input" class="space-y-4">
-                <p class="font-bold">Diagnosis: Proximal Caries?</p>
+                <p class="font-bold">Diagnosis: Is there presence of Proximal Caries?</p>
                 <div class="flex space-x-4">
-                    <button onclick="recordDiagnosis('Sound')" class="bg-gray-200 px-4 py-2 rounded hover:bg-gray-300">Sound Enamel</button>
-                    <button onclick="recordDiagnosis('Caries')" class="bg-gray-200 px-4 py-2 rounded hover:bg-gray-300">Carious Lesion</button>
+                    <button onclick="recordDiagnosis('Sound')" class="bg-gray-200 px-4 py-2 rounded hover:bg-gray-300">Sound Tooth</button>
+                    <button onclick="recordDiagnosis('Enamel Caries')" class="bg-gray-200 px-4 py-2 rounded hover:bg-gray-300">Carious Lesion</button>
                 </div>
                 <div id="confidence-container" class="hidden">
                     <p class="mt-4 font-bold">Confidence (1-5):</p>
