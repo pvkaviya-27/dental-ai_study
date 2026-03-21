@@ -6,7 +6,7 @@
     <title>Dental AI Study</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        .hidden { display: none; }
+        .hidden { display: none !important; }
         .radiograph-img { max-width: 600px; height: auto; border: 2px solid #555; margin: 0 auto; display: block; }
         .ai-overlay { border: 3px solid #f87171; padding: 10px; color: #f87171; font-weight: bold; margin-top: 10px; text-align: center; }
     </style>
@@ -28,7 +28,7 @@
                 </ul>
                 <p class="mt-2 text-sm italic">By clicking "I Agree", you confirm you are a dental professional and consent to the use of your anonymized data for research purposes.</p>
             </div>
-            <button onclick="showScreen('screen-pre')" class="bg-blue-600 text-white px-8 py-3 rounded font-bold hover:bg-blue-700">I Agree & Continue</button>
+            <button type="button" onclick="showScreen('screen-pre')" class="bg-blue-600 text-white px-8 py-3 rounded font-bold hover:bg-blue-700">I Agree & Continue</button>
         </div>
 
         <div id="screen-pre" class="screen hidden">
@@ -82,6 +82,7 @@
     let startTime, initialDiagnosisTime, changeActionTime, currentWorkflowStep = 'initial';
 
     function showScreen(id) {
+        console.log("Attempting to show screen:", id);
         document.querySelectorAll('.screen').forEach(s => s.classList.add('hidden'));
         document.getElementById(id).classList.remove('hidden');
     }
