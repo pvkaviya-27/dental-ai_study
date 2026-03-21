@@ -89,14 +89,14 @@
     function startExperiment() {
         data.pre = { age: document.getElementById('age').value, specialty: document.getElementById('specialty').value, experience: document.getElementById('experience').value, trust: document.getElementById('trust-scale').value };
         trialQueue = [
-            { interface: 'Staged', type: 'Correct', img: 'staged_correct.png' },
-            { interface: 'Staged', type: 'Incorrect', img: 'staged_incorrect.png' },
-            { interface: 'Immediate', type: 'Correct', img: 'immediate_correct.png' },
-            { interface: 'Immediate', type: 'Incorrect', img: 'immediate_incorrect.png' },
-            { interface: 'Optional', type: 'Correct', img: 'optional_correct.png' },
-            { interface: 'Optional', type: 'Incorrect', img: 'optional_incorrect.png' },
-            { interface: 'None', type: 'Correct', img: 'none_correct.png' },
-            { interface: 'None', type: 'Incorrect', img: 'none_incorrect.png' }
+            { interface: 'Staged', type: 'Correct', img: 'staged_correct.png', groundTruth: 'Caries', aiText: 'Carious Lesion Detected' },
+            { interface: 'Staged', type: 'Incorrect', img: 'staged_incorrect.png', groundTruth: 'Caries', aiText: 'No Lesion Detected' },
+            { interface: 'Immediate', type: 'Correct', img: 'immediate_correct.png', groundTruth: 'Caries', aiText: 'Carious Lesion Detected' },
+            { interface: 'Immediate', type: 'Incorrect', img: 'immediate_incorrect.png', groundTruth: 'Sound', aiText: 'Carious Lesion Detected' },
+            { interface: 'Optional', type: 'Correct', img: 'optional_correct.png', groundTruth: 'Caries', aiText: 'Carious Lesion Detected' },
+            { interface: 'Optional', type: 'Incorrect', img: 'optional_incorrect.png', groundTruth: 'Sound', aiText: 'Carious Lesion Detected' },
+            { interface: 'None', type: 'Correct', img: 'none_correct.png', groundTruth: 'Sound', aiText: 'No AI' },
+            { interface: 'None', type: 'Incorrect', img: 'none_incorrect.png', groundTruth: 'Caries', aiText: 'No AI' }
         ].sort(() => Math.random() - 0.5);
         showScreen('screen-task');
         loadTrial();
@@ -111,7 +111,7 @@
         document.getElementById('ai-recommendation').classList.add('hidden');
         document.getElementById('confidence-container').classList.add('hidden');
         document.getElementById('optional-ai-trigger').classList.add('hidden');
-        document.getElementById('ai-text').innerText = (trial.type === 'Correct') ? "Carious Lesion Detected" : "Sound Enamel (No Caries)";
+        document.getElementById('ai-text').innerText = trial.aiText;
         if (trial.interface === 'Immediate') document.getElementById('ai-recommendation').classList.remove('hidden');
     }
 
@@ -146,13 +146,25 @@
         trial.confidence = document.getElementById('confidence-scale').value;
         trial.initialTime = initialDiagnosisTime;
         if (!trial.finalDiagnosis) trial.finalDiagnosis = trial.initialDiagnosis;
+        trial.isCorrect = (trial.finalDiagnosis === trial.groundTruth);
         data.trials.push(trial);
         if (++currentTrialIndex < 8) loadTrial(); else {
             showScreen('screen-post');
             const dims = ["Mental Demand", "Physical Demand", "Temporal Demand", "Performance", "Effort", "Frustration"];
             const cont = document.getElementById('tlx-questions');
-            dims.forEach(q => cont.innerHTML += `<div class='mb-2'><p class='text-sm'>${q}</p><input type='range' id='tlx-${q}' min='1' max='20' class='w-full'></div>`);
-        }
+            dims.forEach(q => {
+                let safeName = q.replace(/\s+/g, '');
+                let radioHTML = `<div class="flex flex-wrap gap-2 mt-2">`;
+                for(let i = 1; i <= 20; i++) {
+                    radioHTML += `
+                    <label class="flex flex-col items-center cursor-pointer text-sm bg-white p-1 border rounded min-w-[30px] hover:bg-blue-50">
+                        <input type="radio" name="tlx-${safeName}" value="${i}" ${i === 10 ? 'checked' : ''} class="mb-1">
+                        <span>${i}</span>
+                    </label>`;
+                }
+                radioHTML += `</div>`;
+                cont.innerHTML += `<div class='mb-4 bg-gray-50 p-4 border rounded'><p class='font-bold text-gray-800'>${q}</p>${radioHTML}</div>`;
+            });
     }
 
     async function finishExperiment() {
