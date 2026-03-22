@@ -28,7 +28,7 @@
                 </ul>
                 <p class="mt-2 text-sm italic">By clicking "I Agree", you confirm you are a dental professional and consent to the use of your anonymized data for research purposes.</p>
             </div>
-            <button type="button" onclick="showScreen('screen-pre')" class="bg-blue-600 text-white px-8 py-3 rounded font-bold hover:bg-blue-700 transition">I Agree & Continue</button>
+            <button type="button" onclick="showScreen('screen-pre')" class="bg-blue-600 text-white px-8 py-3 rounded font-bold hover:bg-blue-700">I Agree & Continue</button>
         </div>
 
         <div id="screen-pre" class="screen hidden">
@@ -57,23 +57,31 @@
                     <span class="text-sm text-gray-600 font-bold">High Trust</span>
                 </div>
                 
-                <button type="button" onclick="startExperiment()" class="bg-blue-600 text-white px-6 py-2 rounded mt-4 hover:bg-blue-700 transition">Begin Diagnostic Task</button>
+                <button type="button" onclick="startExperiment()" class="bg-blue-600 text-white px-6 py-2 rounded mt-4 hover:bg-blue-700">Begin Diagnostic Task</button>
             </div>
         </div>
 
         <div id="screen-task" class="screen hidden">
-            <div class="flex justify-between mb-4"><span id="case-progress" class="font-bold"></span><span id="interface-type" class="text-blue-600 italic"></span></div>
-            <img id="radiograph-display" class="radiograph-img mb-4" src="">
+            <div class="flex justify-between items-center mb-4 border-b pb-2">
+                <div class="flex items-center space-x-4">
+                    <span id="case-progress" class="font-bold text-lg"></span>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <span id="interface-type" class="text-blue-600 italic"></span>
+                    <span id="timer-display" class="font-bold text-red-600 bg-red-50 px-2 py-1 rounded">0.0s</span>
+                </div>
+            </div>
+            <img id="radiograph-display" class="radiograph-img mb-4" src="" alt="Radiograph">
             <div id="ai-recommendation" class="ai-overlay hidden mb-4">AI RECOMMENDATION: <span id="ai-text"></span></div>
             <div id="diagnostic-input" class="space-y-4">
                 <p class="font-bold">Diagnosis: Is there presence of Proximal Caries?</p>
                 <div class="flex space-x-4">
-                    <button type="button" onclick="recordDiagnosis('Sound')" class="bg-gray-200 px-4 py-2 rounded hover:bg-gray-300 font-bold border border-gray-400 transition">Sound Tooth</button>
-                    <button type="button" onclick="recordDiagnosis('Caries')" class="bg-gray-200 px-4 py-2 rounded hover:bg-gray-300 font-bold border border-gray-400 transition">Carious Lesion</button>
+                    <button type="button" onclick="recordDiagnosis('Sound')" class="bg-gray-200 px-4 py-2 rounded hover:bg-gray-300 font-bold border border-gray-400">Sound Tooth</button>
+                    <button type="button" onclick="recordDiagnosis('Caries')" class="bg-gray-200 px-4 py-2 rounded hover:bg-gray-300 font-bold border border-gray-400">Carious Lesion</button>
                 </div>
                 
                 <div id="confidence-container" class="hidden bg-gray-50 p-4 border rounded mt-4">
-                    <p class="font-bold mb-3">Confidence in your diagnosis (1-5):</p>
+                    <p class="font-bold mb-3">How confident are you in your diagnosis? Rate from 1 (not confident) to 5 (very confident):</p>
                     <div class="flex space-x-8 justify-center mb-4">
                         <label class="flex flex-col items-center cursor-pointer"><input type="radio" name="confidence-scale" value="1" class="mb-1"><span>1</span></label>
                         <label class="flex flex-col items-center cursor-pointer"><input type="radio" name="confidence-scale" value="2" class="mb-1"><span>2</span></label>
@@ -81,28 +89,39 @@
                         <label class="flex flex-col items-center cursor-pointer"><input type="radio" name="confidence-scale" value="4" class="mb-1"><span>4</span></label>
                         <label class="flex flex-col items-center cursor-pointer"><input type="radio" name="confidence-scale" value="5" class="mb-1"><span>5</span></label>
                     </div>
-                    <button type="button" onclick="handleWorkflowNext()" class="bg-green-600 text-white px-6 py-2 rounded w-full font-bold hover:bg-green-700 transition">Submit Diagnosis</button>
+                    <button type="button" onclick="handleWorkflowNext()" class="bg-green-600 text-white px-6 py-2 rounded w-full font-bold hover:bg-green-700">Submit Diagnosis</button>
                 </div>
             </div>
-            <div id="optional-ai-trigger" class="hidden mt-4 text-center"><button type="button" onclick="showOptionalAI()" class="bg-purple-600 text-white px-6 py-2 rounded text-sm font-bold hover:bg-purple-700 transition">View Optional AI Advice</button></div>
+            <div id="optional-ai-trigger" class="hidden mt-4 text-center"><button type="button" onclick="showOptionalAI()" class="bg-purple-600 text-white px-6 py-2 rounded text-sm font-bold hover:bg-purple-700">View Optional AI Advice</button></div>
         </div>
 
         <div id="screen-post" class="screen hidden">
             <h2 class="text-2xl font-bold mb-4">NASA-TLX Workload</h2>
             <div id="tlx-questions" class="space-y-4"></div>
-            <button type="button" onclick="finishExperiment()" class="mt-6 bg-blue-600 text-white px-8 py-3 rounded font-bold hover:bg-blue-700 w-full text-lg transition">Final Submit</button>
+            <button type="button" onclick="finishExperiment()" class="mt-6 bg-blue-600 text-white px-8 py-3 rounded font-bold hover:bg-blue-700 w-full text-lg">Final Submit</button>
         </div>
     </div>
 
 <script>
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyjfCzbrH8YHZjf7laQ63R87Det0dlfvnIQUq1CKwLlKGH8w4R3v0GsQIsQhglA8A3vCA/exec";
-    let trialQueue = [], currentTrialIndex = 0, data = { pre: {}, trials: [], post: {} };
+    console.log("Script successfully loaded and running."); // This should show up in your console!
+
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx01XgfCwUdrdZIEs0HJ51MooQYLXGhJN6JfoHGsK1AaQrfQ0w4QknSOuKn6gg2yv5f1w/exec";
+    let trialQueue = [];
+    let currentTrialIndex = 0;
+    let data = { pre: {}, trials: [], post: {} };
     let startTime, initialDiagnosisTime, changeActionTime, currentWorkflowStep = 'initial';
+    let timerInterval;
 
     function showScreen(id) {
-        console.log("Attempting to show screen:", id);
         document.querySelectorAll('.screen').forEach(s => s.classList.add('hidden'));
         document.getElementById(id).classList.remove('hidden');
+    }
+
+    function updateTimer() {
+        const display = document.getElementById('timer-display');
+        if (display && startTime) {
+            display.innerText = ((performance.now() - startTime) / 1000).toFixed(1) + "s";
+        }
     }
 
     function startExperiment() {
@@ -132,16 +151,20 @@
         const trial = trialQueue[currentTrialIndex];
         currentWorkflowStep = 'initial';
         startTime = performance.now();
-        document.getElementById('case-progress').innerText = `Case ${currentTrialIndex + 1}/8`;
-        document.getElementById('radiograph-display').src = trial.img;
+        clearInterval(timerInterval); // Start fresh timer for each trial
+        timerInterval = setInterval(updateTimer, 100);
         
+        document.getElementById('case-progress').innerText = "Case " + (currentTrialIndex + 1) + "/8";
+        document.getElementById('radiograph-display').src = trial.img;
         document.getElementById('ai-recommendation').classList.add('hidden');
         document.getElementById('confidence-container').classList.add('hidden');
         document.getElementById('optional-ai-trigger').classList.add('hidden');
         document.querySelector('input[name="confidence-scale"][value="3"]').checked = true;
         
         document.getElementById('ai-text').innerText = trial.aiText;
-        if (trial.interface === 'Immediate') document.getElementById('ai-recommendation').classList.remove('hidden');
+        if (trial.interface === 'Immediate') {
+            document.getElementById('ai-recommendation').classList.remove('hidden');
+        }
     }
 
     function recordDiagnosis(diag) {
@@ -150,6 +173,7 @@
             initialDiagnosisTime = (performance.now() - startTime) / 1000;
             trial.initialDiagnosis = diag;
             document.getElementById('confidence-container').classList.remove('hidden');
+            
             if (trial.interface === 'Staged') {
                 document.getElementById('ai-recommendation').classList.remove('hidden');
                 currentWorkflowStep = 'ai_reveal';
@@ -171,17 +195,22 @@
     }
 
     function handleWorkflowNext() {
+        clearInterval(timerInterval); // Stop timer for current trial
         const trial = trialQueue[currentTrialIndex];
         trial.confidence = document.querySelector('input[name="confidence-scale"]:checked').value;
         trial.initialTime = initialDiagnosisTime;
         
-        if (!trial.finalDiagnosis) trial.finalDiagnosis = trial.initialDiagnosis;
+        if (!trial.finalDiagnosis) {
+            trial.finalDiagnosis = trial.initialDiagnosis;
+        }
         trial.isCorrect = (trial.finalDiagnosis === trial.groundTruth);
         
         data.trials.push(trial);
         
-        if (++currentTrialIndex < 8) {
-            loadTrial(); 
+        currentTrialIndex++;
+        
+        if (currentTrialIndex < 8) {
+            loadTrial();
         } else {
             showScreen('screen-post');
             const dims = ["Mental Demand", "Physical Demand", "Temporal Demand", "Performance", "Effort", "Frustration"];
@@ -190,25 +219,25 @@
             
             dims.forEach(q => {
                 let safeName = q.replace(/\s+/g, '');
-                let radioHTML = `<div class="flex flex-wrap gap-2 mt-2">`;
+                let radioHTML = '<div class="flex flex-wrap gap-2 mt-2">';
                 for(let i = 1; i <= 20; i++) {
-                    radioHTML += `
-                    <label class="flex flex-col items-center cursor-pointer text-sm bg-white p-1 border rounded min-w-[30px] hover:bg-blue-50">
-                        <input type="radio" name="tlx-${safeName}" value="${i}" ${i === 10 ? 'checked' : ''} class="mb-1">
-                        <span>${i}</span>
-                    </label>`;
+                    let isChecked = (i === 10) ? 'checked' : '';
+                    radioHTML += '<label class="flex flex-col items-center cursor-pointer text-sm bg-white p-1 border rounded min-w-[30px] hover:bg-blue-50">';
+                    radioHTML += '<input type="radio" name="tlx-' + safeName + '" value="' + i + '" ' + isChecked + ' class="mb-1">';
+                    radioHTML += '<span>' + i + '</span>';
+                    radioHTML += '</label>';
                 }
-                radioHTML += `</div>`;
-                cont.innerHTML += `<div class='mb-4 bg-gray-50 p-4 border rounded'><p class='font-bold text-gray-800'>${q}</p>${radioHTML}</div>`;
+                radioHTML += '</div>';
+                cont.innerHTML += "<div class='mb-4 bg-gray-50 p-4 border rounded'><p class='font-bold text-gray-800'>" + q + "</p>" + radioHTML + "</div>";
             });
-        } // Fixed missing closing bracket
-    } // Fixed missing closing bracket
+        }
+    }
 
     async function finishExperiment() {
         const dims = ["Mental Demand", "Physical Demand", "Temporal Demand", "Performance", "Effort", "Frustration"];
         dims.forEach(q => {
             let safeName = q.replace(/\s+/g, '');
-            data.post[q] = document.querySelector(`input[name="tlx-${safeName}"]:checked`).value;
+            data.post[q] = document.querySelector('input[name="tlx-' + safeName + '"]:checked').value;
         });
        
         const submitBtn = document.querySelector("#screen-post button");
@@ -220,11 +249,17 @@
             await fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(data) });
             
             document.getElementById('screen-post').innerHTML = `
-                <div class="text-center py-8">
-                    <svg class="w-16 h-16 text-green-500 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                    <h2 class='text-2xl font-bold text-green-600'>Submitted successfully!</h2>
-                    <p class='text-gray-600 mt-2'>Thank you for participating in this study.</p>
-                </div>`;
+            <div class="text-center py-8">
+                <svg class="w-16 h-16 text-green-500 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                <h2 class='text-2xl font-bold text-green-600'>Submitted successfully!</h2>
+                <p class='text-gray-600 mt-2 mb-6'>Thank you for participating in this study.</p>
+                
+                <div class="bg-yellow-50 p-6 border border-yellow-300 rounded text-left mt-6">
+                    <h2 class="font-bold text-yellow-800 mb-2 text-lg">Study Debriefing & Disclaimer</h2>
+                    <p class="text-sm text-gray-700 mb-2">The true purpose of this study was to evaluate <strong>over-reliance on AI</strong>—specifically in AI-assisted diagnostic decision-making, and how it affects dental professionals in providing accurate diagnoses.</p>
+                    <p class="text-sm text-gray-700">To observe the genuine effect of over-reliance on the system, it was necessary to initially present a false description of this study. This temporary deception was used to ensure unbiased responses from the participants, so that the results would be valid and reliable for designing safer and more resilient AI systems in the future.</p>
+                </div>
+            </div>`;
                 
         } catch (e) { 
             alert("Submission failed. Please check your connection and try again."); 
