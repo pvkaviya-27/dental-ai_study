@@ -33,15 +33,16 @@
 
         <div id="screen-pre" class="screen hidden">
             <h2 class="text-2xl font-bold mb-4">Participant Information</h2>
+            <div id="validation-error" class="hidden bg-red-50 border border-red-300 text-red-800 px-4 py-3 rounded mb-4" role="alert"></div>
             <div class="space-y-4">
-                <input type="number" id="age" placeholder="Age" min="18" class="border p-2 w-full">
-                <select id="specialty" class="border p-2 w-full">
+                <input type="number" id="age" placeholder="Age" min="18" required class="border p-2 w-full">
+                <select id="specialty" class="border p-2 w-full" required>
                     <option value="" disabled selected>Select Specialty</option>
                     <option value="Student">Student</option>
                     <option value="General Dentist">General Dentist</option>
                     <option value="Speciality Dentist">Speciality Dentist</option>
                 </select>
-                <input type="number" id="experience" placeholder="Years of Experience" min="1" class="border p-2 w-full">
+                <input type="number" id="experience" placeholder="Years of Experience" min="1" max="60" required class="border p-2 w-full">
                 <hr>
                 
                 <h3 class="font-bold">Trust in Dental AI (1-5)</h3>
@@ -67,9 +68,12 @@
                     <span id="case-progress" class="font-bold text-lg"></span>
                 </div>
                 <div class="flex items-center space-x-4">
-                    <span id="interface-type" class="text-blue-600 italic"></span>
                     <span id="timer-display" class="font-bold text-red-600 bg-red-50 px-2 py-1 rounded">0.0s</span>
                 </div>
+            </div>
+            <div class="mb-4 text-center">
+                <div class="text-blue-600 italic font-medium mb-1" id="interface-type"></div>
+                <div class="text-gray-600 text-sm" id="interface-description"></div>
             </div>
             <img id="radiograph-display" class="radiograph-img mb-4" src="" alt="Radiograph">
             <div id="ai-recommendation" class="ai-overlay hidden mb-4">AI RECOMMENDATION: <span id="ai-text"></span></div>
@@ -81,7 +85,8 @@
                 </div>
                 
                 <div id="confidence-container" class="hidden bg-gray-50 p-4 border rounded mt-4">
-                    <p class="font-bold mb-3">How confident are you in your diagnosis? Rate from 1 (not confident) to 5 (very confident):</p>
+                    <p class="font-bold mb-3">How confident are you in your diagnosis?</p>
+                    <p class="text-sm text-gray-600 mb-2">Rate from 1 (not confident) to 5 (very confident):</p>
                     <div class="flex space-x-8 justify-center mb-4">
                         <label class="flex flex-col items-center cursor-pointer"><input type="radio" name="confidence-scale" value="1" class="mb-1"><span>1</span></label>
                         <label class="flex flex-col items-center cursor-pointer"><input type="radio" name="confidence-scale" value="2" class="mb-1"><span>2</span></label>
@@ -125,10 +130,42 @@
     }
 
     function startExperiment() {
+        const errorDiv = document.getElementById('validation-error');
+        const age = document.getElementById('age').value;
+        const specialty = document.getElementById('specialty').value;
+        const experience = document.getElementById('experience').value;
+        const errors = [];
+        
+        // Validation
+        if (!age) {
+            errors.push('Age is required.');
+        } else if (parseInt(age) < 18) {
+            errors.push('Age must be 18 or older.');
+        }
+        
+        if (!specialty) {
+            errors.push('Specialty selection is required.');
+        }
+        
+        if (!experience) {
+            errors.push('Years of experience is required.');
+        } else if (parseInt(experience) > 50) {
+            errors.push('Years of experience cannot exceed 50.');
+        }
+        
+        // Display errors or proceed
+        if (errors.length > 0) {
+            errorDiv.innerHTML = '<strong>Please fix the following errors:</strong><ul class="list-disc ml-6 mt-2">' + 
+                errors.map(e => '<li>' + e + '</li>').join('') + '</ul>';
+            errorDiv.classList.remove('hidden');
+            return;
+        }
+        
+        errorDiv.classList.add('hidden');
         data.pre = { 
-            age: document.getElementById('age').value, 
-            specialty: document.getElementById('specialty').value, 
-            experience: document.getElementById('experience').value, 
+            age: age, 
+            specialty: specialty, 
+            experience: experience, 
             trust: document.querySelector('input[name="trust-scale"]:checked').value 
         };
         
@@ -160,6 +197,17 @@
         document.getElementById('confidence-container').classList.add('hidden');
         document.getElementById('optional-ai-trigger').classList.add('hidden');
         document.querySelector('input[name="confidence-scale"][value="3"]').checked = true;
+        
+        // Set interface type and description
+        const interfaceDescriptions = {
+            'Staged': 'AI advice will be shown after entering initial diagnosis',
+            'Immediate': 'AI advice will be shown immediately',
+            'Optional': 'AI advice can be viewed if needed',
+            'None': 'No AI assistance provided'
+        };
+        
+        document.getElementById('interface-type').innerText = trial.interface + " Interface";
+        document.getElementById('interface-description').innerText = interfaceDescriptions[trial.interface];
         
         document.getElementById('ai-text').innerText = trial.aiText;
         if (trial.interface === 'Immediate') {
@@ -213,31 +261,45 @@
             loadTrial();
         } else {
             showScreen('screen-post');
-            const dims = ["Mental Demand", "Physical Demand", "Temporal Demand", "Performance", "Effort", "Frustration"];
+            const dims = [
+                { name: "Mental Demand", question: "How mentally demanding was the task?" },
+                { name: "Physical Demand", question: "How physically demanding was the task?" },
+                { name: "Temporal Demand", question: "How hurried or rushed was the pace of the task?" },
+                { name: "Performance", question: "How successful were you in accomplishing what you were asked to do?" },
+                { name: "Effort", question: "How hard did you have to work to accomplish your level of performance?" },
+                { name: "Frustration", question: "How insecure, discouraged, irritated, stressed, and annoyed were you?" }
+            ];
             const cont = document.getElementById('tlx-questions');
             cont.innerHTML = "";
             
-            dims.forEach(q => {
-                let safeName = q.replace(/\s+/g, '');
+            dims.forEach(dim => {
+                let safeName = dim.name.replace(/\s+/g, '');
                 let radioHTML = '<div class="flex flex-wrap gap-2 mt-2">';
-                for(let i = 1; i <= 20; i++) {
-                    let isChecked = (i === 10) ? 'checked' : '';
+                for(let i = 1; i <= 10; i++) {
+                    let isChecked = (i === 5) ? 'checked' : '';
                     radioHTML += '<label class="flex flex-col items-center cursor-pointer text-sm bg-white p-1 border rounded min-w-[30px] hover:bg-blue-50">';
                     radioHTML += '<input type="radio" name="tlx-' + safeName + '" value="' + i + '" ' + isChecked + ' class="mb-1">';
                     radioHTML += '<span>' + i + '</span>';
                     radioHTML += '</label>';
                 }
                 radioHTML += '</div>';
-                cont.innerHTML += "<div class='mb-4 bg-gray-50 p-4 border rounded'><p class='font-bold text-gray-800'>" + q + "</p>" + radioHTML + "</div>";
+                cont.innerHTML += "<div class='mb-4 bg-gray-50 p-4 border rounded'><p class='font-bold text-gray-800 mb-2'>" + dim.question + "</p><p class='text-sm text-gray-600 mb-3'>(" + dim.name + ")</p>" + radioHTML + "</div>";
             });
         }
     }
 
     async function finishExperiment() {
-        const dims = ["Mental Demand", "Physical Demand", "Temporal Demand", "Performance", "Effort", "Frustration"];
-        dims.forEach(q => {
-            let safeName = q.replace(/\s+/g, '');
-            data.post[q] = document.querySelector('input[name="tlx-' + safeName + '"]:checked').value;
+        const dims = [
+            { name: "Mental Demand" },
+            { name: "Physical Demand" },
+            { name: "Temporal Demand" },
+            { name: "Performance" },
+            { name: "Effort" },
+            { name: "Frustration" }
+        ];
+        dims.forEach(dim => {
+            let safeName = dim.name.replace(/\s+/g, '');
+            data.post[dim.name] = document.querySelector('input[name="tlx-' + safeName + '"]:checked').value;
         });
        
         const submitBtn = document.querySelector("#screen-post button");
