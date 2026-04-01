@@ -32,19 +32,17 @@
             letter-spacing: 0.01em;
         }
 
-        /* ── Progress bar ────────────────────────────────────────────────── */
-        #progress-bar-fill {
-            height: 6px;
-            background: #2563eb;
-            border-radius: 9999px;
-            transition: width 0.35s ease;
-        }
+        /* ── Progress bar (12 case segments) ────────────────────────────────── */
         #progress-bar-track {
-            height: 6px;
-            background: #e2e8f0;
-            border-radius: 9999px;
-            overflow: hidden;
+            display: flex;
+            gap: 3px;
+            height: 8px;
             margin-bottom: 4px;
+        }
+        .prog-seg {
+            flex: 1;
+            border-radius: 9999px;
+            transition: background 0.3s ease;
         }
 
         /* ── Diagnosis buttons ───────────────────────────────────────────── */
@@ -109,8 +107,7 @@
 <div id="app" class="max-w-2xl mx-auto bg-white rounded-xl shadow-md overflow-hidden">
 
     <!-- ═══════════════════════════════════════════════════════════════════
-         SCREEN 1 — Project description  (CHANGE #4: split from consent)
-         A welcoming cover gives context before asking for formal consent.
+         SCREEN 1 — Project description 
     ══════════════════════════════════════════════════════════════════════ -->
     <div id="screen-intro" class="screen p-8 sm:p-10">
         <div class="flex items-center gap-3 mb-6">
@@ -121,23 +118,24 @@
                 </svg>
             </div>
             <div>
-                <p class="text-xs text-slate-400 font-medium uppercase tracking-widest">Research Study</p>
-                <h1 class="text-xl font-bold text-slate-800 leading-tight">Dental AI Diagnostic Study</h1>
+                <p class="text-xs text-slate-400 font-medium uppercase tracking-widest">Study Research</p>
+                <h1 class="text-xl font-bold text-slate-800 leading-tight">AI in Dental Caries Diagnostics</h1>
             </div>
         </div>
 
         <h2 class="text-base font-semibold text-slate-700 mb-2">About this study</h2>
-        <p class="text-slate-600 text-sm leading-relaxed mb-4">
-            This study investigates how dental professionals interact with AI-based decision support
-            systems when diagnosing proximal caries from bite-wing radiographs. Your responses will
-            help us design AI tools that are safer and more effective in clinical settings.
-        </p>
+        <ul class="list-disc ml-5 text-slate-600 text-sm leading-relaxed mb-5 space-y-2">
+            <li>This study investigates how dental professionals interact and view <i><strong>different interface displays</strong></i> of AI-based decision support systems when diagnosing proximal caries from bite-wing radiographs.</li>
+            <li>A series of dental radiographs will be presented, with an <i><strong>AI assistant</strong></i> providing relevant diagnostic recommendations, under 3 interface conditions.</li>
+            <li>The AI was trained on a dataset of bitewing radiographs, and has achieved a <i><strong>diagnostic accuracy</strong></i> of <i><strong>90%</strong></i>.</li>
+            <li> Your responses will help us design AI tools that are reliable and more effective in dental settings. </li>
+        </ul>
 
         <div class="bg-slate-50 border border-slate-200 rounded-lg p-4 mb-6 text-sm text-slate-600 space-y-1">
-            <p><span class="font-semibold text-slate-700">Task:</span> Review radiographs and provide diagnoses across three different AI interface types.</p>
+            <p><span class="font-semibold text-slate-700">Task:</span> Involves reviewing 12 bite-wing radiographs across 3 different AI interface types and confirm the presence or absence of proximal caries.</p>
+            <p> A questionnaire focused on the user experience with the AI interface will be administered after completing each interface condition.</p>
             <p><span class="font-semibold text-slate-700">Duration:</span> Approximately 15–20 minutes.</p>
-            <p><span class="font-semibold text-slate-700">Eligibility:</span> Qualified dental professionals only.</p>
-            <p><span class="font-semibold text-slate-700">Data:</span> Collected anonymously for research purposes.</p>
+            <p><span class="font-semibold text-slate-700">Eligibility:</span> Licensed dental professionals.</p>
         </div>
 
         <button type="button" onclick="showScreen('screen-consent')"
@@ -147,28 +145,20 @@
     </div>
 
     <!-- ═══════════════════════════════════════════════════════════════════
-         SCREEN 2 — Informed consent  (CHANGE #4: its own dedicated screen)
-         Keeping consent separate ensures participants give it proper attention.
+         SCREEN 2 — Informed consent 
     ══════════════════════════════════════════════════════════════════════ -->
     <div id="screen-consent" class="screen hidden p-8 sm:p-10">
         <h2 class="text-xl font-bold text-slate-800 mb-1">Informed Consent</h2>
         <p class="text-sm text-slate-500 mb-5">Please read the following carefully before proceeding.</p>
 
         <div class="bg-slate-50 border border-slate-200 rounded-lg p-5 text-sm text-slate-700 leading-relaxed space-y-3 mb-6 max-h-72 overflow-y-auto">
-            <p><strong>Study title:</strong> AI Assistance in Diagnosing Proximal Caries through Bite-Wing Radiographs</p>
             <p>By participating, you confirm that you are a qualified dental professional and agree to the following:</p>
             <ul class="list-disc ml-5 space-y-1">
                 <li>Your participation is entirely voluntary. You may withdraw at any time without consequence.</li>
                 <li>All data is collected and stored anonymously. No personally identifiable information is retained.</li>
                 <li>Your anonymized data may be used in academic publications or presentations.</li>
-                <li>The study involves viewing radiographic images and making clinical judgements under varying AI assistance conditions.</li>
                 <li>There are no known risks associated with participation beyond the time investment required.</li>
             </ul>
-            <p>
-                This study has been designed in accordance with ethical research standards.
-                If you have questions about your rights as a participant, please contact the
-                principal investigator before proceeding.
-            </p>
         </div>
 
         <div class="flex gap-3">
@@ -186,7 +176,6 @@
 
     <!-- ═══════════════════════════════════════════════════════════════════
          SCREEN 3 — Participant information
-         UX: Explicit labels above each field (placeholders vanish on focus).
     ══════════════════════════════════════════════════════════════════════ -->
     <div id="screen-pre" class="screen hidden p-8 sm:p-10">
         <h2 class="text-xl font-bold text-slate-800 mb-1">Participant Information</h2>
@@ -202,14 +191,18 @@
                        class="border border-slate-300 rounded-lg p-2.5 w-full text-sm focus:outline-none focus:ring-2 focus:ring-blue-400">
             </div>
             <div>
-                <label class="block text-sm font-medium text-slate-700 mb-1" for="specialty">Specialty</label>
+                <label class="block text-sm font-medium text-slate-700 mb-1" for="specialty">Dental Specialty</label>
                 <select id="specialty"
                         class="border border-slate-300 rounded-lg p-2.5 w-full text-sm focus:outline-none focus:ring-2 focus:ring-blue-400">
                     <option value="" disabled selected>Select your specialty…</option>
-                    <option value="Student">Student</option>
                     <option value="General Dentist">General Dentist</option>
-                    <option value="Speciality Dentist">Speciality Dentist</option>
+                    <option value="Speciality Dentist">Dental Specialist</option>
                 </select>
+            </div>
+            <div id="specialist-type-container" class="hidden">
+                <label class="block text-sm font-medium text-slate-700 mb-1" for="specialist-type">State your speciality:</label>
+                <input type="text" id="specialist-type" placeholder="e.g. Orthodontist, Periodontist, Endodontist"
+                       class="border border-slate-300 rounded-lg p-2.5 w-full text-sm focus:outline-none focus:ring-2 focus:ring-blue-400">
             </div>
             <div>
                 <label class="block text-sm font-medium text-slate-700 mb-1" for="experience">Years of experience</label>
@@ -220,35 +213,73 @@
             <hr class="section-rule">
 
             <div>
-                <label class="block text-sm font-medium text-slate-700 mb-3">
-                    How much do you currently trust AI in dental diagnosis?
-                </label>
-                <div class="flex items-center justify-between gap-2 bg-slate-50 border border-slate-200 rounded-lg px-4 py-3">
-                    <span class="text-xs text-slate-500 font-medium w-14 text-center leading-tight">No trust</span>
-                    <div class="flex gap-4 flex-1 justify-center">
-                        <label class="flex flex-col items-center cursor-pointer gap-1">
-                            <input type="radio" name="trust-scale" value="1" class="accent-blue-600">
-                            <span class="text-xs text-slate-600">1</span>
-                        </label>
-                        <label class="flex flex-col items-center cursor-pointer gap-1">
-                            <input type="radio" name="trust-scale" value="2" class="accent-blue-600">
-                            <span class="text-xs text-slate-600">2</span>
-                        </label>
-                        <label class="flex flex-col items-center cursor-pointer gap-1">
-                            <input type="radio" name="trust-scale" value="3" checked class="accent-blue-600">
-                            <span class="text-xs text-slate-600">3</span>
-                        </label>
-                        <label class="flex flex-col items-center cursor-pointer gap-1">
-                            <input type="radio" name="trust-scale" value="4" class="accent-blue-600">
-                            <span class="text-xs text-slate-600">4</span>
-                        </label>
-                        <label class="flex flex-col items-center cursor-pointer gap-1">
-                            <input type="radio" name="trust-scale" value="5" class="accent-blue-600">
-                            <span class="text-xs text-slate-600">5</span>
-                        </label>
-                    </div>
-                    <span class="text-xs text-slate-500 font-medium w-14 text-center leading-tight">High trust</span>
+                 <div class="mb-4">
+                    <p class="text-base font-bold text-slate-800">A Brief Assessment on AI-Generated Health Advice</p>
+                    <p class="text-xs text-slate-500 mt-0.5">Please rate how much each statement applies to you.</p>
                 </div>
+
+                <div class="space-y-3">
+                    <!-- Q1 -->
+                    <div class="bg-slate-50 border border-slate-200 rounded-lg px-4 py-3">
+                        <p class="text-sm text-slate-700 mb-2">I feel positive about relying on the AI's advice.</p>
+                        <div class="flex items-center gap-1">
+                            <span class="text-xs text-slate-400 w-14 flex-shrink-0">Not at all</span>
+                            <div class="flex gap-2 flex-1 justify-between">
+                                <label class="flex flex-col items-center cursor-pointer gap-1"><input type="radio" name="tais-1" value="1" class="accent-blue-600"><span class="text-xs text-slate-500">1</span></label>
+                                <label class="flex flex-col items-center cursor-pointer gap-1"><input type="radio" name="tais-1" value="2" class="accent-blue-600"><span class="text-xs text-slate-500">2</span></label>
+                                <label class="flex flex-col items-center cursor-pointer gap-1"><input type="radio" name="tais-1" value="3" class="accent-blue-600"><span class="text-xs text-slate-500">3</span></label>
+                                <label class="flex flex-col items-center cursor-pointer gap-1"><input type="radio" name="tais-1" value="4" class="accent-blue-600"><span class="text-xs text-slate-500">4</span></label>
+                                <label class="flex flex-col items-center cursor-pointer gap-1"><input type="radio" name="tais-1" value="5" class="accent-blue-600"><span class="text-xs text-slate-500">5</span></label>
+                            </div>
+                            <span class="text-xs text-slate-400 w-14 flex-shrink-0 text-right">Extremely</span>
+                        </div>
+                    </div>
+                    <!-- Q2 -->
+                    <div class="bg-slate-50 border border-slate-200 rounded-lg px-4 py-3">
+                        <p class="text-sm text-slate-700 mb-2">I believe the AI's advice will help me make good health decisions.</p>
+                        <div class="flex items-center gap-1">
+                            <span class="text-xs text-slate-400 w-14 flex-shrink-0">Not at all</span>
+                            <div class="flex gap-2 flex-1 justify-between">
+                                <label class="flex flex-col items-center cursor-pointer gap-1"><input type="radio" name="tais-2" value="1" class="accent-blue-600"><span class="text-xs text-slate-500">1</span></label>
+                                <label class="flex flex-col items-center cursor-pointer gap-1"><input type="radio" name="tais-2" value="2" class="accent-blue-600"><span class="text-xs text-slate-500">2</span></label>
+                                <label class="flex flex-col items-center cursor-pointer gap-1"><input type="radio" name="tais-2" value="3" class="accent-blue-600"><span class="text-xs text-slate-500">3</span></label>
+                                <label class="flex flex-col items-center cursor-pointer gap-1"><input type="radio" name="tais-2" value="4" class="accent-blue-600"><span class="text-xs text-slate-500">4</span></label>
+                                <label class="flex flex-col items-center cursor-pointer gap-1"><input type="radio" name="tais-2" value="5" class="accent-blue-600"><span class="text-xs text-slate-500">5</span></label>
+                            </div>
+                            <span class="text-xs text-slate-400 w-14 flex-shrink-0 text-right">Extremely</span>
+                        </div>
+                    </div>
+                    <!-- Q3 -->
+                    <div class="bg-slate-50 border border-slate-200 rounded-lg px-4 py-3">
+                        <p class="text-sm text-slate-700 mb-2">I think following the AI's advice could pose health risks.</p>
+                        <div class="flex items-center gap-1">
+                            <span class="text-xs text-slate-400 w-14 flex-shrink-0">Not at all</span>
+                            <div class="flex gap-2 flex-1 justify-between">
+                                <label class="flex flex-col items-center cursor-pointer gap-1"><input type="radio" name="dtais-1" value="1" class="accent-blue-600"><span class="text-xs text-slate-500">1</span></label>
+                                <label class="flex flex-col items-center cursor-pointer gap-1"><input type="radio" name="dtais-1" value="2" class="accent-blue-600"><span class="text-xs text-slate-500">2</span></label>
+                                <label class="flex flex-col items-center cursor-pointer gap-1"><input type="radio" name="dtais-1" value="3" class="accent-blue-600"><span class="text-xs text-slate-500">3</span></label>
+                                <label class="flex flex-col items-center cursor-pointer gap-1"><input type="radio" name="dtais-1" value="4" class="accent-blue-600"><span class="text-xs text-slate-500">4</span></label>
+                                <label class="flex flex-col items-center cursor-pointer gap-1"><input type="radio" name="dtais-1" value="5" class="accent-blue-600"><span class="text-xs text-slate-500">5</span></label>
+                            </div>
+                            <span class="text-xs text-slate-400 w-14 flex-shrink-0 text-right">Extremely</span>
+                        </div>
+                    </div>
+                    <!-- Q4 -->
+                    <div class="bg-slate-50 border border-slate-200 rounded-lg px-4 py-3">
+                        <p class="text-sm text-slate-700 mb-2">I feel tense about taking the AI's advice into account.</p>
+                        <div class="flex items-center gap-1">
+                            <span class="text-xs text-slate-400 w-14 flex-shrink-0">Not at all</span>
+                            <div class="flex gap-2 flex-1 justify-between">
+                                <label class="flex flex-col items-center cursor-pointer gap-1"><input type="radio" name="dtais-2" value="1" class="accent-blue-600"><span class="text-xs text-slate-500">1</span></label>
+                                <label class="flex flex-col items-center cursor-pointer gap-1"><input type="radio" name="dtais-2" value="2" class="accent-blue-600"><span class="text-xs text-slate-500">2</span></label>
+                                <label class="flex flex-col items-center cursor-pointer gap-1"><input type="radio" name="dtais-2" value="3" class="accent-blue-600"><span class="text-xs text-slate-500">3</span></label>
+                                <label class="flex flex-col items-center cursor-pointer gap-1"><input type="radio" name="dtais-2" value="4" class="accent-blue-600"><span class="text-xs text-slate-500">4</span></label>
+                                <label class="flex flex-col items-center cursor-pointer gap-1"><input type="radio" name="dtais-2" value="5" class="accent-blue-600"><span class="text-xs text-slate-500">5</span></label>
+                            </div>
+                            <span class="text-xs text-slate-400 w-14 flex-shrink-0 text-right">Extremely</span>
+                        </div>
+                    </div>
+                </div>        
             </div>
 
             <button type="button" onclick="startExperiment()"
@@ -259,10 +290,40 @@
     </div>
 
     <!-- ═══════════════════════════════════════════════════════════════════
+         SCREEN 3.5 — Interface type introduction (shown before each group)
+    ══════════════════════════════════════════════════════════════════════ -->
+    <div id="screen-interface-intro" class="screen hidden p-8 sm:p-10">
+        <div class="flex items-center gap-3 mb-7">
+            <div class="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center flex-shrink-0">
+                <svg class="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M13 16h-1v-4h-1m1-4h.01M12 20a8 8 0 100-16 8 8 0 000 16z"/>
+                </svg>
+            </div>
+            <div>
+                <p id="iface-intro-group-num" class="text-xs text-slate-400 font-medium uppercase tracking-widest">Group 1 of 3</p>
+                <h2 id="iface-intro-label" class="text-xl font-bold text-slate-800 leading-tight">Interface Type 1</h2>
+            </div>
+        </div>
+
+        <div class="bg-indigo-50 border border-indigo-200 rounded-xl p-6 mb-7">
+            <p class="text-xs font-semibold text-indigo-400 uppercase tracking-widest mb-2">How this interface works</p>
+            <p id="iface-intro-desc" class="text-slate-700 text-sm leading-relaxed"></p>
+        </div>
+
+        <div class="bg-slate-50 border border-slate-200 rounded-lg p-4 mb-7 text-sm text-slate-600">
+            <p><span class="font-semibold text-slate-700">Cases in this section:</span> 4 bite-wing radiographs.</p>
+            <p class="mt-1"><span class="font-semibold text-slate-700">Your task:</span> Review each radiograph and indicate whether proximal caries is present or absent.</p>
+        </div>
+
+        <button type="button" onclick="beginInterfaceGroup()"
+                class="w-full bg-indigo-600 text-white py-3 rounded-lg font-semibold hover:bg-indigo-700 transition-colors">
+            Begin Cases →
+        </button>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
          SCREEN 4 — Diagnostic task
-         CHANGE #1: Confidence rating removed.
-         CHANGE #2: None interface removed; 4 cases per remaining interface.
-         UX: Progress bar, colour-coded interface badge, cleaner button layout.
     ══════════════════════════════════════════════════════════════════════ -->
     <div id="screen-task" class="screen hidden p-6 sm:p-8">
 
@@ -270,19 +331,16 @@
         <div class="flex justify-between items-center mb-2">
             <span id="case-progress" class="text-sm font-semibold text-slate-600"></span>
             <span id="timer-display"
-                  class="text-sm font-semibold text-red-600 bg-red-50 border border-red-200 px-2.5 py-1 rounded-md tabular-nums">0.0s</span>
+                  class="text-sm font-semibold text-red-600 bg-red-50 border border-red-200 px-2.5 py-1 rounded-md tabular-nums">0s</span>
         </div>
 
-        <!-- Progress bar -->
-        <div id="progress-bar-track">
-            <div id="progress-bar-fill" style="width: 0%"></div>
-        </div>
+        <!-- Progress bar — 12 individual case segments -->
+        <div id="progress-bar-track" class="flex gap-1 mb-1" style="height:8px;"></div>
         <p id="progress-section-label" class="text-xs text-slate-400 mb-5"></p>
 
         <!-- Interface badge + description -->
         <div class="flex flex-col items-center mb-5">
             <span id="interface-badge" class="interface-badge mb-1"></span>
-            <span id="interface-description" class="text-xs text-slate-500 text-center max-w-xs"></span>
         </div>
 
         <!-- Radiograph -->
@@ -311,7 +369,6 @@
             </div>
         </div>
 
-        <!-- Submit appears once a diagnosis is selected (CHANGE #1: no confidence step) -->
         <div id="submit-container" class="hidden mt-5">
             <button type="button" onclick="handleWorkflowNext()"
                     class="w-full bg-emerald-600 text-white py-3 rounded-lg font-semibold hover:bg-emerald-700 transition-colors">
@@ -321,16 +378,16 @@
     </div>
 
     <!-- ═══════════════════════════════════════════════════════════════════
-         SCREEN 5 — NASA-TLX  (CHANGE #3: appears after each interface group)
-         A clear interstitial heading names which interface just finished so
-         participants understand why workload questions appear mid-study.
+         SCREEN 5 — NASA-TLX workload assessment
     ══════════════════════════════════════════════════════════════════════ -->
     <div id="screen-tlx" class="screen hidden p-8 sm:p-10">
         <div class="mb-6">
-            <p class="text-xs text-slate-400 font-semibold uppercase tracking-widest mb-1">Workload Assessment</p>
-            <h2 class="text-xl font-bold text-slate-800 mb-1">NASA-TLX</h2>
+            <p class="text-xs text-slate-400 font-semibold uppercase tracking-widest mb-1">Post-Task Questionnaire</p>
+            <h2 class="text-xl font-bold text-slate-800 mb-1">Mental Workload Assessment</h2>
             <p id="tlx-context" class="text-sm text-slate-500 leading-relaxed"></p>
         </div>
+
+        <div id="tlx-validation-error" class="hidden bg-red-50 border border-red-300 text-red-300 px-4 py-3 rounded-lg mb-5 text-sm" role="alert"> </div>
         <div id="tlx-questions" class="space-y-5"></div>
         <button type="button" id="tlx-submit-btn" onclick="submitTLX()"
                 class="mt-6 w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors">
@@ -340,9 +397,6 @@
 
     <!-- ═══════════════════════════════════════════════════════════════════
          SCREEN 6 — Submission confirmed
-         Shown immediately once the POST to Google Sheets succeeds.
-         Kept deliberately brief — a calm "you're done" moment before
-         the more substantive debrief that follows.
     ══════════════════════════════════════════════════════════════════════ -->
     <div id="screen-submitted" class="screen hidden p-8 sm:p-10">
         <div class="text-center py-6">
@@ -358,30 +412,14 @@
             </p>
         </div>
 
-        <!-- Summary of what was submitted, for participant reassurance -->
-        <div class="mt-6 bg-slate-50 border border-slate-200 rounded-lg divide-y divide-slate-200 text-sm">
-            <div class="flex justify-between items-center px-4 py-3">
-                <span class="text-slate-500">Diagnostic cases completed</span>
-                <span class="font-semibold text-slate-700">12 of 12</span>
-            </div>
-            <div class="flex justify-between items-center px-4 py-3">
-                <span class="text-slate-500">Workload assessments</span>
-                <span class="font-semibold text-slate-700">3 of 3</span>
-            </div>
-            <div class="flex justify-between items-center px-4 py-3">
-                <span class="text-slate-500">Data anonymised</span>
-                <span class="font-semibold text-emerald-600">Yes</span>
-            </div>
-        </div>
-
-        <p class="text-xs text-slate-400 text-center mt-4 leading-relaxed">
+        <p class="text-xs text-slate-600 text-center mt-4 leading-relaxed font-bold">
             There is an important message about this study on the next page. 
             Please take a moment to read it.
         </p>
 
         <button type="button" onclick="showScreen('screen-debrief')"
                 class="mt-5 w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors">
-            Read study information →
+            Read Study Information →
         </button>
     </div>
 
@@ -399,60 +437,44 @@
         </div>
 
         <div class="space-y-4 text-sm text-slate-700 leading-relaxed">
-
             <div class="bg-amber-50 border border-amber-200 rounded-lg p-4">
-                <h3 class="font-semibold text-amber-800 mb-1">True purpose of this study</h3>
+                <h3 class="font-semibold text-amber-800 mb-1">True purpose of this study:</h3>
                 <p>
-                    This study was designed to investigate <strong>over-reliance on AI</strong> — 
-                    specifically, how the way in which an AI recommendation is presented 
-                    (immediately, after an initial decision, or on request) affects the 
-                    diagnostic accuracy of dental professionals.
+                    This study was designed to investigate <strong>over-reliance on AI</strong>, in the context of dental diagnostics. 
+                    The aim was to understand how different interface designs can influence the extent to which dental professionals 
+                    rely on AI recommendations, and in turn affect their diagnostic accuracy.
                 </p>
             </div>
-
             <div>
-                <h3 class="font-semibold text-slate-700 mb-1">Why the full purpose was not disclosed in advance</h3>
+                <h3 class="font-semibold text-slate-700 mb-1">Why the full purpose was not disclosed in advance:</h3>
                 <p>
                     Informing participants of the true aim before participation would have 
-                    changed behaviour in ways that invalidate the results — a phenomenon known 
-                    as <em>demand characteristics</em>. For this reason, the introduction 
-                    described the study more broadly as an evaluation of AI-assisted diagnosis, 
+                    influenced their behaviour in ways that could invalidate the results. For this reason, 
+                    the introduction described the study more broadly as an evaluation of an AI-assisted diagnosis, 
                     without specifying the over-reliance hypothesis.
                 </p>
-                <p class="mt-2">
-                    This use of partial concealment is a recognised and ethically approved 
-                    methodology in behavioural and human factors research. The study protocol, 
-                    including this deceptive element, was reviewed and approved prior to data 
-                    collection.
+            </div>
+            <div>
+                <p>
+                    Your responses will be analysed alongside those of other participants to 
+                    determine how interface design influences AI over-reliance. No individual responses will be reported, 
+                    only aggregated & anonymised data.
+                    
                 </p>
             </div>
-
             <div>
-                <h3 class="font-semibold text-slate-700 mb-1">Your rights</h3>
                 <p>
                     Now that you are aware of the study's true purpose, you have the right to 
                     <strong>withdraw your data</strong> if you do not wish it to be used. 
-                    To do so, please contact the principal investigator using the details below 
-                    within two weeks of completing the study. If we do not hear from you, we 
-                    will assume you are content for your anonymised data to be included.
-                </p>
-            </div>
-
-            <div>
-                <h3 class="font-semibold text-slate-700 mb-1">What happens next</h3>
-                <p>
-                    Your responses will be analysed alongside those of other participants to 
-                    determine how interface design influences AI over-reliance. Findings will be 
-                    written up for academic publication. No individual responses will be reported 
-                    — only aggregated, anonymised data.
+                    To do so, please contact using the details given below within two weeks of completing the study.  
                 </p>
             </div>
 
             <div class="bg-slate-50 border border-slate-200 rounded-lg p-4 text-xs text-slate-500 space-y-1">
-                <p class="font-semibold text-slate-600 text-sm mb-2">Contact</p>
-                <p>Principal Investigator: <span class="text-slate-700">[Name]</span></p>
-                <p>Institution: <span class="text-slate-700">[Institution]</span></p>
-                <p>Email: <span class="text-slate-700">[email@institution.ac.uk]</span></p>
+                <p class="font-semibold text-slate-600 text-sm mb-2">Contact Details:</p>
+                <p>Contact Person: <span class="text-slate-700">Kaviya Palaniyappan</span></p>
+                <p>Institution: <span class="text-slate-700">Karolinska Institutet</span></p>
+                <p>Email: <span class="text-slate-700">[<a href="kaviya.palaniyappan@stud.ki.se" class="__cf_email__" data-cfemail="0d68606c64614d64637e7964797879646263236c6e237866">[email&#160;protected]</a>]</span></p>
             </div>
         </div>
 
@@ -461,49 +483,63 @@
             <p class="text-xs text-slate-400 mt-1">Thank you again for your contribution to this research.</p>
         </div>
     </div>
+</div>
 
-</div><!-- /#app -->
 
-
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 console.log("Dental AI Study — script loaded.");
 
 // ── Constants ────────────────────────────────────────────────────────────────
 
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx4dXNOeHBdyK7X24E_nKNXqGmPQ4CVTWbz5raNP9E691bMFx97HIyqI3lLuwR1g-14Hg/exec";
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzvisAkS46Ei1Xw0hoNeTohc6bg1juQrTBGKXBKjBmE45abFIK6QAgFEYR_WTis3_5E8Q/exec";
 
-// CHANGE #2: None interface removed. 3 interfaces × 4 cases = 12 trials total.
+// 3 interfaces × 4 cases = 12 trials total.
 const TOTAL_TRIALS       = 12;
 const CASES_PER_INTERFACE = 4;
-
-// CHANGE #3: TLX fires after every CASES_PER_INTERFACE trials.
-// INTERFACE_GROUPS drives the group order tracking.
 const INTERFACE_GROUPS = ['Staged', 'Immediate', 'Optional'];
 
-// TLX dimensions — defined once, shared across all three TLX blocks.
+// Initialize specialty change handler
+document.addEventListener('DOMContentLoaded', function() {
+    const specialtySelect = document.getElementById('specialty');
+    const specialistContainer = document.getElementById('specialist-type-container');
+    
+    specialtySelect.addEventListener('change', function() {
+        if (this.value === 'Speciality Dentist') {
+            specialistContainer.classList.remove('hidden');
+        } else {
+            specialistContainer.classList.add('hidden');
+            document.getElementById('specialist-type').value = ''; // Clear the field
+        }
+    });
+});
+
 const TLX_DIMS = [
-    { name: "Mental Demand",   question: "How mentally demanding was the task?" },
-    { name: "Physical Demand", question: "How physically demanding was the task?" },
-    { name: "Temporal Demand", question: "How hurried or rushed was the pace of the task?" },
-    { name: "Performance",     question: "How successful were you in accomplishing what you were asked to do?" },
-    { name: "Effort",          question: "How hard did you have to work to accomplish your level of performance?" },
-    { name: "Frustration",     question: "How insecure, discouraged, irritated, stressed, and annoyed were you?" }
+    { name: "Usefulness",      question: "How useful was this AI interface in helping you diagnose cases more quickly?" },
+    { name: "Ease of Use",     question: "How easy to use and understandable was this AI interface?" },
+    { name: "Performance",     question: "How satisfied were you with your performance in diagnosing the cases using this interface?" },
+    { name: "Mental Demand",   question: "How mentally demanding or complex was the AI interface?" },
+    { name: "Temporal Demand", question: "How much time pressure did you feel performing the task?" },
+    { name: "Frustration",     question: "How stressed, or annoyed were you when using this interface?" },
 ];
 
-// Colour classes for each interface badge
-const BADGE_COLORS = {
-    Staged:    'bg-blue-100 text-blue-700',
-    Immediate: 'bg-orange-100 text-orange-700',
-    Optional:  'bg-violet-100 text-violet-700'
-};
-
+// INTERFACE_DISPLAY maps each internal interface name to a blinded
+// participant-facing label. The number is
+// assigned dynamically in startExperiment() based on the randomised
+// group order, so the same interface gets a different number for
+// different participants, preventing order-based label bias.
+let INTERFACE_DISPLAY = {};
 const INTERFACE_DESCRIPTIONS = {
-    Staged:    'AI advice will be shown after your initial diagnosis',
-    Immediate: 'AI advice is shown immediately alongside the radiograph',
-    Optional:  'AI advice is available on request — tap the button if you want it'
+    Staged:    'You will enter your initial diagnosis first. The recommendation by the AI will be displayed after you have selected your answer. Based on the AI recommendation, you can then choose to change your diagnosis or keep it as is.',
+    Immediate: 'The recommendation by the AI is displayed alongside each radiograph from the start.',
+    Optional:  'The recommendation by the AI is available if you choose to view it before submitting. You can also change your diagnosis after viewing the recommendation.'
 };
 
-// ── Mutable state ─────────────────────────────────────────────────────────────
+// Per-interface colours used by the 12-segment progress bar.
+const INTERFACE_COLORS = {
+    Staged:    { fill: '#2563eb', track: '#bfdbfe' },  // blue
+    Immediate: { fill: '#7c3aed', track: '#ede9fe' },  // violet
+    Optional:  { fill: '#059669', track: '#d1fae5' },  // emerald
+};
 
 let trialQueue           = [];
 let currentTrialIndex    = 0;
@@ -512,7 +548,8 @@ let currentTrialResponse = {};  // accumulates data for the current trial only
 let currentWorkflowStep  = 'initial';
 
 // Timing
-let startTime            = null;
+let startTime            = null;   // per-trial start (for data recording)
+let groupStartTime       = null;   // per-interface-group start (for timer display)
 let initialDiagnosisTime = null;
 let changeActionTime     = null;
 let timerInterval        = null;
@@ -532,9 +569,59 @@ function showScreen(id) {
 
 function updateTimer() {
     const display = document.getElementById('timer-display');
-    if (display && startTime) {
-        display.textContent = ((performance.now() - startTime) / 1000).toFixed(1) + "s";
+    if (display && groupStartTime) {
+        const secs = Math.floor((performance.now() - groupStartTime) / 1000);
+        display.textContent = secs + "s";
     }
+}
+
+// ── Progress bar helpers ──────────────────────────────────────────────────────
+
+function buildProgressBar() {
+    const track = document.getElementById('progress-bar-track');
+    track.innerHTML = '';
+    trialQueue.forEach((trial, i) => {
+        const seg = document.createElement('div');
+        seg.id        = 'prog-seg-' + i;
+        seg.className = 'prog-seg';
+        const colors  = INTERFACE_COLORS[trial.interface] || { fill: '#2563eb', track: '#e2e8f0' };
+        seg.style.background = colors.track;
+        track.appendChild(seg);
+    });
+}
+
+function updateProgressBar() {
+    trialQueue.forEach((trial, i) => {
+        const seg = document.getElementById('prog-seg-' + i);
+        if (!seg) return;
+        const colors = INTERFACE_COLORS[trial.interface] || { fill: '#2563eb', track: '#e2e8f0' };
+        seg.style.background = i < currentTrialIndex ? colors.fill : colors.track;
+    });
+}
+
+// ── Interface intro screen ────────────────────────────────────────────────────
+
+function showInterfaceIntro() {
+    const iface        = data.groupOrder[tlxGroupIndex];
+    const displayLabel = INTERFACE_DISPLAY[iface] || iface;
+    const description  = INTERFACE_DESCRIPTIONS[iface] || '';
+    const groupNum     = tlxGroupIndex + 1;
+
+    document.getElementById('iface-intro-group-num').textContent = 'Group ' + groupNum + ' of 3';
+    document.getElementById('iface-intro-label').textContent     = displayLabel;
+    document.getElementById('iface-intro-desc').textContent      = description;
+    showScreen('screen-interface-intro');
+}
+
+function beginInterfaceGroup() {
+    // Switch to task screen without the timer-clearing side-effect of showScreen
+    document.querySelectorAll('.screen').forEach(s => s.classList.add('hidden'));
+    document.getElementById('screen-task').classList.remove('hidden');
+    // Start the group-level timer fresh
+    groupStartTime = performance.now();
+    clearInterval(timerInterval);
+    timerInterval  = setInterval(updateTimer, 100);
+    loadTrial();
 }
 
 // ── Experiment setup ──────────────────────────────────────────────────────────
@@ -543,8 +630,13 @@ function startExperiment() {
     const errorDiv   = document.getElementById('validation-error');
     const age        = document.getElementById('age').value;
     const specialty  = document.getElementById('specialty').value;
+    const specialistType = document.getElementById('specialist-type').value;
     const experience = document.getElementById('experience').value;
     const errors     = [];
+    const tais1 = document.querySelector('input[name="tais-1"]:checked')?.value;
+    const tais2 = document.querySelector('input[name="tais-2"]:checked')?.value;
+    const dtais1 = document.querySelector('input[name="dtais-1"]:checked')?.value;
+    const dtais2 = document.querySelector('input[name="dtais-2"]:checked')?.value;
 
     if (!age) {
         errors.push('Age is required.');
@@ -554,14 +646,21 @@ function startExperiment() {
     if (!specialty) {
         errors.push('Please select a specialty.');
     }
+    if (specialty === 'Speciality Dentist' && !specialistType.trim()) {
+        errors.push('Please specify your dental specialty.');
+    }
     if (experience === '') {
         errors.push('Years of experience is required.');
     } else if (parseInt(experience) > 60) {
         errors.push('Years of experience cannot exceed 60.');
     }
 
+    if (!tais1 || !tais2 || !dtais1 || !dtais2) {
+    errors.push('Please answer all trust assessment questions.');
+    }
+
     if (errors.length > 0) {
-        errorDiv.innerHTML = '<strong>Please fix the following:</strong><ul class="list-disc ml-5 mt-1">' +
+        errorDiv.innerHTML = '<strong>Please fix the following errors:</strong><ul class="list-disc ml-5 mt-1">' +
             errors.map(e => '<li>' + e + '</li>').join('') + '</ul>';
         errorDiv.classList.remove('hidden');
         return;
@@ -571,11 +670,13 @@ function startExperiment() {
     data.pre = {
         age:        age,
         specialty:  specialty,
+        specialistType: specialty === 'Speciality Dentist' ? specialistType : null,
         experience: experience,
-        trust:      document.querySelector('input[name="trust-scale"]:checked').value
+        trust:      { tais1, tais2 },
+        distrust:   { dtais1, dtais2 }
     };
 
-    // CHANGE #2: Build 12-trial queue — 3 interfaces × 4 cases each.
+    // Build 12-trial queue — 3 interfaces × 4 cases each.
     // Within each interface: 2 cases where AI is correct, 2 where it is incorrect.
     // Trials are shuffled within each group; group order itself is also randomised
     // to counterbalance presentation order across participants.
@@ -600,6 +701,14 @@ function startExperiment() {
     const shuffledGroups = [...INTERFACE_GROUPS].sort(() => Math.random() - 0.5);
     data.groupOrder      = shuffledGroups;
 
+    // Assign blinded display labels based on the randomised order.
+    // The interface that appears first gets "Interface Type 1", second gets
+    // "Interface Type 2", etc. Because the order is randomised per participant,
+    // the numeric labels carry no consistent meaning across participants.
+    shuffledGroups.forEach((iface, i) => {
+        INTERFACE_DISPLAY[iface] = 'Interface Type ' + (i + 1);
+    });
+
     trialQueue = [];
     shuffledGroups.forEach(iface => {
         const group = rawTrials
@@ -608,8 +717,8 @@ function startExperiment() {
         trialQueue = trialQueue.concat(group);
     });
 
-    showScreen('screen-task');
-    loadTrial();
+    buildProgressBar();
+    showInterfaceIntro();
 }
 
 // ── Trial lifecycle ───────────────────────────────────────────────────────────
@@ -628,29 +737,22 @@ function loadTrial() {
         aiText:      trial.aiText
     };
 
-    // Restart timer
-    clearInterval(timerInterval);
-    startTime     = performance.now();
-    timerInterval = setInterval(updateTimer, 100);
+    // Reset per-trial start time (used for data recording only; timer display uses groupStartTime)
+    startTime = performance.now();
 
-    // Progress text: "Case 2 of 4 — Immediate Interface"
-    const caseInGroup = (currentTrialIndex % CASES_PER_INTERFACE) + 1;
+    // Update the 12-segment progress bar
+    updateProgressBar();
+
+    // Progress text
+    const overallCase = currentTrialIndex + 1;
     document.getElementById('case-progress').textContent =
-        'Case ' + caseInGroup + ' of ' + CASES_PER_INTERFACE + ' — ' + trial.interface + ' Interface';
+        'Case ' + overallCase + ' of ' + TOTAL_TRIALS;
 
-    // Progress bar spans all 12 trials for an overall sense of pace
-    const pct = Math.round((currentTrialIndex / TOTAL_TRIALS) * 100);
-    document.getElementById('progress-bar-fill').style.width = pct + '%';
-
-    const groupNum = data.groupOrder.indexOf(trial.interface) + 1;
-    document.getElementById('progress-section-label').textContent =
-        'Section ' + groupNum + ' of 3';
-
-    // Interface badge (colour-coded by type)
+    // Show the blinded label ("Interface Type 1/2/3") rather than the
+    // internal condition name so participants cannot identify their group.
     const badge = document.getElementById('interface-badge');
-    badge.textContent = trial.interface;
-    badge.className   = 'interface-badge ' + (BADGE_COLORS[trial.interface] || '');
-    document.getElementById('interface-description').textContent = INTERFACE_DESCRIPTIONS[trial.interface];
+    badge.textContent = INTERFACE_DISPLAY[trial.interface] || trial.interface;
+    badge.className   = 'interface-badge bg-slate-100 text-slate-600';
 
     // Radiograph
     document.getElementById('radiograph-display').src = trial.img;
@@ -681,7 +783,6 @@ function recordDiagnosis(diag) {
         initialDiagnosisTime = (performance.now() - startTime) / 1000;
         currentTrialResponse.initialDiagnosis = diag;
 
-        // CHANGE #1: No confidence rating — submit button appears immediately.
         document.getElementById('submit-container').classList.remove('hidden');
 
         if (trial.interface === 'Staged') {
@@ -714,7 +815,7 @@ function showOptionalAI() {
 }
 
 function handleWorkflowNext() {
-    clearInterval(timerInterval);
+    // Note: timer keeps running within a group; showTLX → showScreen stops it at group end.
 
     // Finalise the trial record
     currentTrialResponse.initialTime = initialDiagnosisTime;
@@ -730,12 +831,10 @@ function handleWorkflowNext() {
     const finishedGroup = (currentTrialIndex % CASES_PER_INTERFACE === 0);
     const allDone       = (currentTrialIndex >= TOTAL_TRIALS);
 
-    // CHANGE #3: Show TLX after the last case of each interface group.
+    // Show TLX after the last case of each interface group.
     if (allDone) {
-        // Last group done — TLX submit will call finishExperiment
         showTLX(data.groupOrder[tlxGroupIndex], true);
     } else if (finishedGroup) {
-        // Intermediate group done — TLX submit will load next trial
         showTLX(data.groupOrder[tlxGroupIndex], false);
     } else {
         loadTrial();
@@ -746,9 +845,12 @@ function handleWorkflowNext() {
 
 // isLast: true means this is the third TLX and submitTLX should finishExperiment.
 function showTLX(interfaceName, isLast) {
-    document.getElementById('tlx-context').textContent =
-        'You have just completed the ' + interfaceName +
-        ' interface. Please rate the mental workload you experienced during those cases.';
+    document.getElementById('tlx-validation-error').classList.add('hidden');
+
+    const displayLabel = INTERFACE_DISPLAY[interfaceName] || interfaceName;
+    document.getElementById('tlx-context').innerHTML =
+        'You have just completed diagnosing using the <strong>' + displayLabel + '</strong>. ' +
+        'Please answer the following questions based on your experience using this interface type.';
 
     const btn = document.getElementById('tlx-submit-btn');
     btn.dataset.isLast    = isLast ? 'true' : 'false';
@@ -760,8 +862,6 @@ function showTLX(interfaceName, isLast) {
 }
 
 function buildTLXQuestions(interfaceName) {
-    // We suffix each radio name with the interface name so groups from different
-    // TLX blocks don't share a name and accidentally clear each other.
     const suffix = interfaceName.toLowerCase();
     const cont   = document.getElementById('tlx-questions');
     cont.innerHTML = "";
@@ -780,7 +880,7 @@ function buildTLXQuestions(interfaceName) {
         nameEl.className = 'text-xs text-slate-400 mb-3';
         nameEl.textContent = dim.name;
 
-        // Scale 1–10 with anchors
+        // Scale 1–5 with anchors
         const scaleWrap = document.createElement('div');
         scaleWrap.className = 'flex items-end gap-1';
 
@@ -791,7 +891,7 @@ function buildTLXQuestions(interfaceName) {
         const radioRow = document.createElement('div');
         radioRow.className = 'flex flex-1 justify-between gap-0.5';
 
-        for (let i = 1; i <= 10; i++) {
+        for (let i = 1; i <= 5; i++) {
             const label = document.createElement('label');
             label.className = 'flex flex-col items-center cursor-pointer text-xs text-slate-500 hover:text-blue-600 gap-1 flex-1 min-w-0';
 
@@ -800,7 +900,6 @@ function buildTLXQuestions(interfaceName) {
             radio.name      = 'tlx-' + safeName;
             radio.value     = String(i);
             radio.className = 'accent-blue-600';
-            if (i === 5) radio.checked = true;
 
             const numSpan = document.createElement('span');
             numSpan.textContent = String(i);
@@ -830,22 +929,38 @@ function submitTLX() {
     const isLast        = btn.dataset.isLast === 'true';
     const interfaceName = btn.dataset.ifaceName;
     const suffix        = interfaceName.toLowerCase();
+    const errorDiv      = document.getElementById('tlx-validation-error');
 
-    // Collect this block's answers and store under the interface name
     const tlxRecord = {};
+    let allAnswered = true;
+
     TLX_DIMS.forEach(dim => {
         const safeName = dim.name.replace(/\s+/g, '') + '_' + suffix;
         const checked  = document.querySelector('input[name="tlx-' + safeName + '"]:checked');
-        tlxRecord[dim.name] = checked ? checked.value : null;
+        if (checked) {
+            tlxRecord[dim.name] = checked.value;
+        } else {
+            allAnswered = false;
+        }
     });
-    data.tlx[interfaceName] = tlxRecord;
 
+    if (!allAnswered) {
+        errorDiv.textContent = "Please answer all questions before continuing.";
+        errorDiv.classList.remove('hidden');
+        return;
+    }
+    errorDiv.classList.add('hidden');
+
+    data.tlx[interfaceName] = tlxRecord;
+    // Increment BEFORE branching so that when loadTrial() runs it reflects
+    // the new block index, and so the next call to showTLX() names the
+    // correct interface (the one just completed, not the previous one).
     tlxGroupIndex++;
 
     if (isLast) {
         finishExperiment();
     } else {
-        loadTrial();
+        showInterfaceIntro();
     }
 }
 
@@ -867,7 +982,7 @@ async function finishExperiment() {
         // Navigate to the confirmation screen first; the debrief follows from there.
         showScreen('screen-submitted');
     } catch (e) {
-        alert("Submission failed. Please check your connection and try again.");
+        alert("Submission failed. Please check your internet connection and try again.");
         submitBtn.textContent = "Submit Study →";
         submitBtn.disabled    = false;
         submitBtn.classList.remove("opacity-50", "cursor-not-allowed");
