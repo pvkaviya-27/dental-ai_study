@@ -12,6 +12,7 @@
         /* ── Radiograph display ─────────────────────────────────────────── */
         .radiograph-img {
             max-width: 560px;
+            width: 100%;
             height: auto;
             border: 2px solid #94a3b8;
             border-radius: 6px;
@@ -161,7 +162,7 @@
             </ul>
         </div>
 
-        <div class="flex gap-3">
+        <div class="flex flex-col sm:flex-row gap-3">
             <button type="button" onclick="showScreen('screen-intro')"
                     class="flex-1 py-3 rounded-lg font-semibold border border-slate-300 text-slate-600 hover:bg-slate-50 transition-colors text-sm">
                 ← Back
@@ -222,61 +223,81 @@
                     <!-- Q1 -->
                     <div class="bg-slate-50 border border-slate-200 rounded-lg px-4 py-3">
                         <p class="text-sm text-slate-700 mb-2">I feel positive about relying on the AI's advice.</p>
-                        <div class="flex items-center gap-1">
-                            <span class="text-xs text-slate-400 w-14 flex-shrink-0">Not at all</span>
-                            <div class="flex gap-2 flex-1 justify-between">
-                                <label class="flex flex-col items-center cursor-pointer gap-1"><input type="radio" name="tais-1" value="1" class="accent-blue-600"><span class="text-xs text-slate-500">1</span></label>
-                                <label class="flex flex-col items-center cursor-pointer gap-1"><input type="radio" name="tais-1" value="2" class="accent-blue-600"><span class="text-xs text-slate-500">2</span></label>
-                                <label class="flex flex-col items-center cursor-pointer gap-1"><input type="radio" name="tais-1" value="3" class="accent-blue-600"><span class="text-xs text-slate-500">3</span></label>
-                                <label class="flex flex-col items-center cursor-pointer gap-1"><input type="radio" name="tais-1" value="4" class="accent-blue-600"><span class="text-xs text-slate-500">4</span></label>
-                                <label class="flex flex-col items-center cursor-pointer gap-1"><input type="radio" name="tais-1" value="5" class="accent-blue-600"><span class="text-xs text-slate-500">5</span></label>
+                        <div class="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-1">
+                            <div class="flex justify-between sm:hidden text-xs text-slate-400 px-1">
+                                <span>Not at all</span>
+                                <span>Extremely</span>
                             </div>
-                            <span class="text-xs text-slate-400 w-14 flex-shrink-0 text-right">Extremely</span>
+                            <span class="hidden sm:inline-block text-xs text-slate-400 w-14 flex-shrink-0">Not at all</span>
+
+                            <div class="flex gap-2 flex-1 justify-between px-3 sm:px-0">
+                                <label class="flex flex-col items-center cursor-pointer gap-1"><input type="radio" name="tais-1" value="1" class="accent-blue-600 w-4 h-4"><span class="text-xs text-slate-500 mt-1">1</span></label>
+                                <label class="flex flex-col items-center cursor-pointer gap-1"><input type="radio" name="tais-1" value="2" class="accent-blue-600 w-4 h-4"><span class="text-xs text-slate-500 mt-1">2</span></label>
+                                <label class="flex flex-col items-center cursor-pointer gap-1"><input type="radio" name="tais-1" value="3" class="accent-blue-600 w-4 h-4"><span class="text-xs text-slate-500 mt-1">3</span></label>
+                                <label class="flex flex-col items-center cursor-pointer gap-1"><input type="radio" name="tais-1" value="4" class="accent-blue-600 w-4 h-4"><span class="text-xs text-slate-500 mt-1">4</span></label>
+                                <label class="flex flex-col items-center cursor-pointer gap-1"><input type="radio" name="tais-1" value="5" class="accent-blue-600 w-4 h-4"><span class="text-xs text-slate-500 mt-1">5</span></label>
+                            </div>
+                            <span class="hidden sm:inline-block text-xs text-slate-400 w-14 flex-shrink-0 text-right">Extremely</span>
                         </div>
                     </div>
                     <!-- Q2 -->
                     <div class="bg-slate-50 border border-slate-200 rounded-lg px-4 py-3">
                         <p class="text-sm text-slate-700 mb-2">I believe the AI's advice will help me make good health decisions.</p>
-                        <div class="flex items-center gap-1">
-                            <span class="text-xs text-slate-400 w-14 flex-shrink-0">Not at all</span>
-                            <div class="flex gap-2 flex-1 justify-between">
-                                <label class="flex flex-col items-center cursor-pointer gap-1"><input type="radio" name="tais-2" value="1" class="accent-blue-600"><span class="text-xs text-slate-500">1</span></label>
-                                <label class="flex flex-col items-center cursor-pointer gap-1"><input type="radio" name="tais-2" value="2" class="accent-blue-600"><span class="text-xs text-slate-500">2</span></label>
-                                <label class="flex flex-col items-center cursor-pointer gap-1"><input type="radio" name="tais-2" value="3" class="accent-blue-600"><span class="text-xs text-slate-500">3</span></label>
-                                <label class="flex flex-col items-center cursor-pointer gap-1"><input type="radio" name="tais-2" value="4" class="accent-blue-600"><span class="text-xs text-slate-500">4</span></label>
-                                <label class="flex flex-col items-center cursor-pointer gap-1"><input type="radio" name="tais-2" value="5" class="accent-blue-600"><span class="text-xs text-slate-500">5</span></label>
+                        <div class="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-1">
+                            <div class="flex justify-between sm:hidden text-xs text-slate-400 px-1">
+                                <span>Not at all</span>
+                                <span>Extremely</span>
                             </div>
-                            <span class="text-xs text-slate-400 w-14 flex-shrink-0 text-right">Extremely</span>
+                            <span class="hidden sm:inline-block text-xs text-slate-400 w-14 flex-shrink-0">Not at all</span>
+
+                            <div class="flex gap-2 flex-1 justify-between px-3 sm:px-0">
+                                <label class="flex flex-col items-center cursor-pointer gap-1"><input type="radio" name="tais-2" value="1" class="accent-blue-600 w-4 h-4"><span class="text-xs text-slate-500 mt-1">1</span></label>
+                                <label class="flex flex-col items-center cursor-pointer gap-1"><input type="radio" name="tais-2" value="2" class="accent-blue-600 w-4 h-4"><span class="text-xs text-slate-500 mt-1">2</span></label>
+                                <label class="flex flex-col items-center cursor-pointer gap-1"><input type="radio" name="tais-2" value="3" class="accent-blue-600 w-4 h-4"><span class="text-xs text-slate-500 mt-1">3</span></label>
+                                <label class="flex flex-col items-center cursor-pointer gap-1"><input type="radio" name="tais-2" value="4" class="accent-blue-600 w-4 h-4"><span class="text-xs text-slate-500 mt-1">4</span></label>
+                                <label class="flex flex-col items-center cursor-pointer gap-1"><input type="radio" name="tais-2" value="5" class="accent-blue-600 w-4 h-4"><span class="text-xs text-slate-500 mt-1">5</span></label>
+                            </div>
+                            <span class="hidden sm:inline-block text-xs text-slate-400 w-14 flex-shrink-0 text-right">Extremely</span>
                         </div>
                     </div>
                     <!-- Q3 -->
                     <div class="bg-slate-50 border border-slate-200 rounded-lg px-4 py-3">
                         <p class="text-sm text-slate-700 mb-2">I think following the AI's advice could pose health risks.</p>
-                        <div class="flex items-center gap-1">
-                            <span class="text-xs text-slate-400 w-14 flex-shrink-0">Not at all</span>
-                            <div class="flex gap-2 flex-1 justify-between">
-                                <label class="flex flex-col items-center cursor-pointer gap-1"><input type="radio" name="dtais-1" value="1" class="accent-blue-600"><span class="text-xs text-slate-500">1</span></label>
-                                <label class="flex flex-col items-center cursor-pointer gap-1"><input type="radio" name="dtais-1" value="2" class="accent-blue-600"><span class="text-xs text-slate-500">2</span></label>
-                                <label class="flex flex-col items-center cursor-pointer gap-1"><input type="radio" name="dtais-1" value="3" class="accent-blue-600"><span class="text-xs text-slate-500">3</span></label>
-                                <label class="flex flex-col items-center cursor-pointer gap-1"><input type="radio" name="dtais-1" value="4" class="accent-blue-600"><span class="text-xs text-slate-500">4</span></label>
-                                <label class="flex flex-col items-center cursor-pointer gap-1"><input type="radio" name="dtais-1" value="5" class="accent-blue-600"><span class="text-xs text-slate-500">5</span></label>
+                        <div class="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-1">
+                            <div class="flex justify-between sm:hidden text-xs text-slate-400 px-1">
+                                <span>Not at all</span>
+                                <span>Extremely</span>
                             </div>
-                            <span class="text-xs text-slate-400 w-14 flex-shrink-0 text-right">Extremely</span>
+                            <span class="hidden sm:inline-block text-xs text-slate-400 w-14 flex-shrink-0">Not at all</span>
+
+                            <div class="flex gap-2 flex-1 justify-between px-3 sm:px-0">
+                                <label class="flex flex-col items-center cursor-pointer gap-1"><input type="radio" name="dtais-1" value="1" class="accent-blue-600 w-4 h-4"><span class="text-xs text-slate-500 mt-1">1</span></label>
+                                <label class="flex flex-col items-center cursor-pointer gap-1"><input type="radio" name="dtais-1" value="2" class="accent-blue-600 w-4 h-4"><span class="text-xs text-slate-500 mt-1">2</span></label>
+                                <label class="flex flex-col items-center cursor-pointer gap-1"><input type="radio" name="dtais-1" value="3" class="accent-blue-600 w-4 h-4"><span class="text-xs text-slate-500 mt-1">3</span></label>
+                                <label class="flex flex-col items-center cursor-pointer gap-1"><input type="radio" name="dtais-1" value="4" class="accent-blue-600 w-4 h-4"><span class="text-xs text-slate-500 mt-1">4</span></label>
+                                <label class="flex flex-col items-center cursor-pointer gap-1"><input type="radio" name="dtais-1" value="5" class="accent-blue-600 w-4 h-4"><span class="text-xs text-slate-500 mt-1">5</span></label>
+                            </div>
+                            <span class="hidden sm:inline-block text-xs text-slate-400 w-14 flex-shrink-0 text-right">Extremely</span>
                         </div>
                     </div>
                     <!-- Q4 -->
                     <div class="bg-slate-50 border border-slate-200 rounded-lg px-4 py-3">
                         <p class="text-sm text-slate-700 mb-2">I feel tense about taking the AI's advice into account.</p>
-                        <div class="flex items-center gap-1">
-                            <span class="text-xs text-slate-400 w-14 flex-shrink-0">Not at all</span>
-                            <div class="flex gap-2 flex-1 justify-between">
-                                <label class="flex flex-col items-center cursor-pointer gap-1"><input type="radio" name="dtais-2" value="1" class="accent-blue-600"><span class="text-xs text-slate-500">1</span></label>
-                                <label class="flex flex-col items-center cursor-pointer gap-1"><input type="radio" name="dtais-2" value="2" class="accent-blue-600"><span class="text-xs text-slate-500">2</span></label>
-                                <label class="flex flex-col items-center cursor-pointer gap-1"><input type="radio" name="dtais-2" value="3" class="accent-blue-600"><span class="text-xs text-slate-500">3</span></label>
-                                <label class="flex flex-col items-center cursor-pointer gap-1"><input type="radio" name="dtais-2" value="4" class="accent-blue-600"><span class="text-xs text-slate-500">4</span></label>
-                                <label class="flex flex-col items-center cursor-pointer gap-1"><input type="radio" name="dtais-2" value="5" class="accent-blue-600"><span class="text-xs text-slate-500">5</span></label>
+                        <div class="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-1">
+                            <div class="flex justify-between sm:hidden text-xs text-slate-400 px-1">
+                                <span>Not at all</span>
+                                <span>Extremely</span>
                             </div>
-                            <span class="text-xs text-slate-400 w-14 flex-shrink-0 text-right">Extremely</span>
+                            <span class="hidden sm:inline-block text-xs text-slate-400 w-14 flex-shrink-0">Not at all</span>
+
+                            <div class="flex gap-2 flex-1 justify-between px-3 sm:px-0">
+                                <label class="flex flex-col items-center cursor-pointer gap-1"><input type="radio" name="dtais-2" value="1" class="accent-blue-600 w-4 h-4"><span class="text-xs text-slate-500 mt-1">1</span></label>
+                                <label class="flex flex-col items-center cursor-pointer gap-1"><input type="radio" name="dtais-2" value="2" class="accent-blue-600 w-4 h-4"><span class="text-xs text-slate-500 mt-1">2</span></label>
+                                <label class="flex flex-col items-center cursor-pointer gap-1"><input type="radio" name="dtais-2" value="3" class="accent-blue-600 w-4 h-4"><span class="text-xs text-slate-500 mt-1">3</span></label>
+                                <label class="flex flex-col items-center cursor-pointer gap-1"><input type="radio" name="dtais-2" value="4" class="accent-blue-600 w-4 h-4"><span class="text-xs text-slate-500 mt-1">4</span></label>
+                                <label class="flex flex-col items-center cursor-pointer gap-1"><input type="radio" name="dtais-2" value="5" class="accent-blue-600 w-4 h-4"><span class="text-xs text-slate-500 mt-1">5</span></label>
+                            </div>
+                            <span class="hidden sm:inline-block text-xs text-slate-400 w-14 flex-shrink-0 text-right">Extremely</span>
                         </div>
                     </div>
                 </div>        
@@ -363,7 +384,7 @@
         <!-- Diagnosis question + buttons -->
         <div class="mb-1">
             <p class="text-sm font-semibold text-slate-700 mb-3">Is there presence of proximal caries?</p>
-            <div class="flex gap-3">
+            <div class="flex flex-col sm:flex-row gap-3 w-full">
                 <button type="button" id="btn-sound"  onclick="recordDiagnosis('Sound')"  class="diag-btn">Sound Tooth</button>
                 <button type="button" id="btn-caries" onclick="recordDiagnosis('Caries')" class="diag-btn">Carious Lesion</button>
             </div>
@@ -475,6 +496,7 @@
                 <p>Contact Person: <span class="text-slate-700">Kaviya Palaniyappan</span></p>
                 <p>Institution: <span class="text-slate-700">Karolinska Institutet</span></p>
                 <p>Email: <span class="text-slate-700">[<a href="kaviya.palaniyappan@stud.ki.se" class="__cf_email__" data-cfemail="0d68606c64614d64637e7964797879646263236c6e237866">[email&#160;protected]</a>]</span></p>
+                <!-- <p>Email: <span class="text-slate-700">[<a href="mailto:kaviya.palaniyappan@stud.ki.se" class="hover:text-blue-600 transition-colors">kaviya.palaniyappan@stud.ki.se</a>]</span></p>  -->
             </div>
         </div>
 
@@ -880,16 +902,21 @@ function buildTLXQuestions(interfaceName) {
         nameEl.className = 'text-xs text-slate-400 mb-3';
         nameEl.textContent = dim.name;
 
-        // Scale 1–5 with anchors
+        // Scale 1–5 with anchors (Responsive Mobile & Desktop)
         const scaleWrap = document.createElement('div');
-        scaleWrap.className = 'flex items-end gap-1';
+        scaleWrap.className = 'flex flex-col sm:flex-row sm:items-end gap-3 sm:gap-1';
+
+        // Mobile Labels (Visible only on small screens)
+        const mobileLabels = document.createElement('div');
+        mobileLabels.className = 'flex justify-between sm:hidden text-xs text-slate-400 px-1';
+        mobileLabels.innerHTML = '<span>Very Low</span><span>Very High</span>';
 
         const lowLabel = document.createElement('span');
-        lowLabel.className = 'tlx-scale-label w-12 flex-shrink-0 pb-1';
+        lowLabel.className = 'hidden sm:block tlx-scale-label w-12 flex-shrink-0 pb-1';
         lowLabel.textContent = 'Very Low';
 
         const radioRow = document.createElement('div');
-        radioRow.className = 'flex flex-1 justify-between gap-0.5';
+        radioRow.className = 'flex flex-1 justify-between gap-0.5 px-3 sm:px-0';
 
         for (let i = 1; i <= 5; i++) {
             const label = document.createElement('label');
@@ -899,9 +926,10 @@ function buildTLXQuestions(interfaceName) {
             radio.type      = 'radio';
             radio.name      = 'tlx-' + safeName;
             radio.value     = String(i);
-            radio.className = 'accent-blue-600';
+            radio.className = 'accent-blue-600 w-4 h-4'; // Bigger tap target
 
             const numSpan = document.createElement('span');
+            numSpan.className = 'mt-1';
             numSpan.textContent = String(i);
 
             label.appendChild(radio);
@@ -910,9 +938,10 @@ function buildTLXQuestions(interfaceName) {
         }
 
         const highLabel = document.createElement('span');
-        highLabel.className = 'tlx-scale-label w-12 flex-shrink-0 pb-1';
+        highLabel.className = 'hidden sm:block tlx-scale-label w-12 flex-shrink-0 pb-1';
         highLabel.textContent = 'Very High';
 
+        scaleWrap.appendChild(mobileLabels);
         scaleWrap.appendChild(lowLabel);
         scaleWrap.appendChild(radioRow);
         scaleWrap.appendChild(highLabel);
