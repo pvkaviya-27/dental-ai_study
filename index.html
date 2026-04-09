@@ -11,9 +11,10 @@
 
         /* ── Radiograph display ─────────────────────────────────────────── */
         .radiograph-img {
-            max-width: 560px;
             width: 100%;
+            max-width: 560px;
             height: auto;
+            object-fit: contain;
             border: 2px solid #94a3b8;
             border-radius: 6px;
             margin: 0 auto;
@@ -102,10 +103,10 @@
     </style>
 </head>
 
-<body class="bg-slate-100 min-h-screen py-10 px-4">
+<body class="bg-slate-100 min-h-screen py-6 sm:py-10 px-3 sm:px-4 overflow-x-hidden">
 
 <!-- UX: max-w-2xl keeps lines readable and the card focused -->
-<div id="app" class="max-w-2xl mx-auto bg-white rounded-xl shadow-md overflow-hidden">
+<div id="app" class="max-w-2xl mx-auto bg-white rounded-xl shadow-md overflow-x-hidden">
 
     <!-- ═══════════════════════════════════════════════════════════════════
          SCREEN 1 — Project description 
@@ -215,8 +216,9 @@
 
             <div>
                  <div class="mb-4">
-                    <p class="text-base font-bold text-slate-800">A Brief Assessment on AI-Generated Health Advice</p>
+                    <p class="text-base font-bold text-slate-800">A brief assessment on AI-Generated Health Advice</p>
                     <p class="text-xs text-slate-500 mt-0.5">Please rate how much each statement applies to you.</p>
+                    <p class="text-xs text-slate-500 mt-1 font-medium">Scale: <span class=" text-slate-500">1 = Not at all</span> &nbsp;·&nbsp; <span class=" text-slate-500">5 = Extremely</span></p>
                 </div>
 
                 <div class="space-y-3">
@@ -406,6 +408,7 @@
             <p class="text-xs text-slate-400 font-semibold uppercase tracking-widest mb-1">Post-Task Questionnaire</p>
             <h2 class="text-xl font-bold text-slate-800 mb-1">Mental Workload Assessment</h2>
             <p id="tlx-context" class="text-sm text-slate-500 leading-relaxed"></p>
+            <p class="text-xs text-slate-400 mt-2 font-medium">Scale: <span class="font-semibold text-slate-500">1 = Not at all</span> &nbsp;·&nbsp; <span class="font-semibold text-slate-500">5 = Extremely</span></p>
         </div>
 
         <div id="tlx-validation-error" class="hidden bg-red-50 border border-red-300 text-red-300 px-4 py-3 rounded-lg mb-5 text-sm" role="alert"> </div>
@@ -495,8 +498,7 @@
                 <p class="font-semibold text-slate-600 text-sm mb-2">Contact Details:</p>
                 <p>Contact Person: <span class="text-slate-700">Kaviya Palaniyappan</span></p>
                 <p>Institution: <span class="text-slate-700">Karolinska Institutet</span></p>
-                <p>Email: <span class="text-slate-700">[<a href="kaviya.palaniyappan@stud.ki.se" class="__cf_email__" data-cfemail="0d68606c64614d64637e7964797879646263236c6e237866">[email&#160;protected]</a>]</span></p>
-                <!-- <p>Email: <span class="text-slate-700">[<a href="mailto:kaviya.palaniyappan@stud.ki.se" class="hover:text-blue-600 transition-colors">kaviya.palaniyappan@stud.ki.se</a>]</span></p>  -->
+                <p>Email: <span class="text-slate-700"><a href="mailto:kaviya.palaniyappan@stud.ki.se" class="hover:text-blue-600 transition-colors">kaviya.palaniyappan@stud.ki.se</a></span></p>
             </div>
         </div>
 
@@ -508,12 +510,12 @@
 </div>
 
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
 console.log("Dental AI Study — script loaded.");
 
 // ── Constants ────────────────────────────────────────────────────────────────
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzCNyx4D4ticaq0IAG020F6z8idB4NbjY3noh5jkUkPxupKIRauOMHUpZzs7ID0-lbfeA/exec";
 
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzvisAkS46Ei1Xw0hoNeTohc6bg1juQrTBGKXBKjBmE45abFIK6QAgFEYR_WTis3_5E8Q/exec";
 
 // 3 interfaces × 4 cases = 12 trials total.
 const TOTAL_TRIALS       = 12;
@@ -565,6 +567,7 @@ const INTERFACE_COLORS = {
 
 let trialQueue           = [];
 let currentTrialIndex    = 0;
+// No participantId is collected or transmitted — data remains fully anonymous.
 let data                 = { pre: {}, trials: [], tlx: {}, groupOrder: [] };
 let currentTrialResponse = {};  // accumulates data for the current trial only
 let currentWorkflowStep  = 'initial';
@@ -720,7 +723,16 @@ function startExperiment() {
         { interface: 'Optional', type: 'Incorrect', img: 'optional_incorrect_2.png', groundTruth: 'Caries', aiText: 'No Lesion Detected' },
     ];
 
-    const shuffledGroups = [...INTERFACE_GROUPS].sort(() => Math.random() - 0.5);
+    // ── Fisher-Yates shuffle for uniform randomisation ──────────────────
+    function shuffle(arr) {
+        for (let i = arr.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        return arr;
+    }
+
+    const shuffledGroups = shuffle([...INTERFACE_GROUPS]);
     data.groupOrder      = shuffledGroups;
 
     // Assign blinded display labels based on the randomised order.
@@ -733,9 +745,7 @@ function startExperiment() {
 
     trialQueue = [];
     shuffledGroups.forEach(iface => {
-        const group = rawTrials
-            .filter(t => t.interface === iface)
-            .sort(() => Math.random() - 0.5);
+        const group = shuffle(rawTrials.filter(t => t.interface === iface));
         trialQueue = trialQueue.concat(group);
     });
 
@@ -909,11 +919,11 @@ function buildTLXQuestions(interfaceName) {
         // Mobile Labels (Visible only on small screens)
         const mobileLabels = document.createElement('div');
         mobileLabels.className = 'flex justify-between sm:hidden text-xs text-slate-400 px-1';
-        mobileLabels.innerHTML = '<span>Very Low</span><span>Very High</span>';
+        mobileLabels.innerHTML = '<span>Not at all</span><span>Extremely</span>';
 
         const lowLabel = document.createElement('span');
         lowLabel.className = 'hidden sm:block tlx-scale-label w-12 flex-shrink-0 pb-1';
-        lowLabel.textContent = 'Very Low';
+        lowLabel.textContent = 'Not at all';
 
         const radioRow = document.createElement('div');
         radioRow.className = 'flex flex-1 justify-between gap-0.5 px-3 sm:px-0';
@@ -939,7 +949,7 @@ function buildTLXQuestions(interfaceName) {
 
         const highLabel = document.createElement('span');
         highLabel.className = 'hidden sm:block tlx-scale-label w-12 flex-shrink-0 pb-1';
-        highLabel.textContent = 'Very High';
+        highLabel.textContent = 'Extremely';
 
         scaleWrap.appendChild(mobileLabels);
         scaleWrap.appendChild(lowLabel);
