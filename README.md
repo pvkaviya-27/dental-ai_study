@@ -8,61 +8,58 @@ The tool simulates a professional dental workflow where licensed dental practiti
 
 ## Tool Interface
 
-### 1. Project Introduction (`#screen-intro`)
+### 1. Project Introduction
 The landing portal introducing the scope of the study. It discloses that the embedded AI assistant is 90% accurate in identifying proximal caries on bitewing radiographs and establishes task scope and criteria.
 
 ![01_intro_screen](images/intro_page.png)
-*Figure 1: Study objectives and task overview.*
+*Figure 1: Study objectives and task overview*
 
-### 2. Informed Consent (`#screen-consent`)
+### 2. Informed Consent
 Outlines regulatory and ethical bounds in compliance with the Declaration of Helsinki and GDPR, ensuring voluntary participation and complete tracking anonymity.
 
 ![02_consent_screen](images/consent_page.png)
-*Figure 2: Digital informed consent verification gateway.*
+*Figure 2: Digital informed consent*
 
-### 3. Participant Demographics & Baseline Trust (`#screen-pre`)
+### 3. Participant Demographics
 Gathers demographic metrics (Age, Experience, Specialty) alongside an integrated 4-question psychometric baseline survey measuring prior cognitive affinity toward computer-aided health advice:
 *   **Trust Evaluation Scale (TAIS):** Quantifies prospective positive reliance on automated diagnostics.
 *   **Distrust Evaluation Scale (DTAIS):** Assesses user-perceived systemic risks and cognitive tension.
 
 ![03_demographics_screen](images/parti_page.png)
-*Figure 3: Practitioner profiling and baseline trust metric scale inputs.*
+*Figure 3: Participant Demographics*
 
-### 4. Blinded Interface Condition Introductions (`#screen-interface-intro`)
-An intentional structural buffer presented before each block of 4 cases. To counter observation bias, internal test conditions are mapped to dynamic user-facing labels (`Interface Type 1`, `Interface Type 2`, `Interface Type 3`) based on their randomized Latin Square sequence.
+### 4. Blinded Interface Condition Introductions
+An intentional structural buffer is presented before each block of 4 cases. To counter observation bias, internal test conditions are mapped to dynamic user-facing labels (`Interface Type 1`, `Interface Type 2`, `Interface Type 3`) based on Latin Square Randomization.
 
 ![04_interface_intro_screen](images/interface_desc_page.png)
-*Figure 4: Interface workflow transition explaining upcoming interaction rules.*
+*Figure 4: Interface description*
 
-### 5. Active Diagnostic Task Loop (`#screen-task`)
-The core diagnostic interface displaying bite-wing radiographs alongside an interactive 12-segment multi-colored progress bar mapped to the user's current track. It handles the 3 interface conditions:
-*   **Immediate Condition:** AI advice overlay is visible instantly.
+### 5. Active Diagnostic Task Loop 
+The core diagnostic interface displaying bite-wing radiographs alongside an interactive the 3 interface conditions:
+*   **Standard Condition:** AI advice overlay is visible instantly.
+*   ![05_standard_screen](images/standard.png)
+*Figure 5: Standard Interface*
 *   **Optional Condition:** AI recommendations are hidden behind a manual click trigger.
+*   ![06_optional_screen](images/optional.png)
+*Figure 6: Optional Interface*
 *   **Staged Condition:** Forces a double-entry workflow where an initial diagnosis must be input to reveal the hidden AI recommendation, allowing for mid-trial diagnostic revision.
+*   ![07_staged_screen](images/staged.png)
+*Figure 7: Staged Interface*
 
-![05_standard_screen](images/standard.png)
-*Figure 5: Radiograph presentation, persistent countdown timers, and diagnosis selectors.*
-
-![06_optional_screen](images/optional.png)
-*Figure 6: Radiograph presentation, persistent countdown timers, and diagnosis selectors.*
-
-![07_staged_screen](images/staged.png)
-*Figure 7: Radiograph presentation, persistent countdown timers, and diagnosis selectors.*
-
-### 6. Mental Workload Assessment (`#screen-tlx`)
-Administered instantly at the tail-end of each interface condition block. It leverages a modified subjective raw NASA-TLX survey evaluating 6 key dimensions on a 1–5 scale: *Usefulness, Ease of Use, Performance, Mental Demand, Temporal Demand, and Frustration*.
+### 6. Mental Workload Assessment
+Administered instantly at the end of each interface condition block. It uses a modified subjective raw NASA-TLX survey evaluating 6 key dimensions on a 1–5 Likert scale: *Usefulness, Ease of Use, Performance, Mental Demand, Temporal Demand, and Frustration*.
 
 ![08_workload_assessment_screen](images/post_task_ques_1.png)
-*Figure 8: Post-task subjective cognitive friction assessment matrix.*
+*Figure 8: Post-task subjective questionnaire*
 
 ![09_workload_assessment_screen_2](images/post_task_quest_2.png)
-*Figure 9: Post-task subjective cognitive friction assessment matrix.*
+*Figure 9: Post-task subjective questionnaire*
 
-### 7. Submission Confirmation & Ethical Debrief (`#screen-submitted` & `#screen-debrief`)
+### 7. Submission Confirmation & Ethical Debrief
 The final data transition window confirming anonymous packet transfer, followed by an explicit ethical debrief revealing the concealment mechanism (the fact that 50% of the AI suggestions were intentionally erroneous to track automation bias) along with formal institution contact avenues.
 
 ![10_debrief_screen](images/debrief_page.png)
-*Figure 10: Data submission success and full research disclosure window.*
+*Figure 10: Full research disclosure*
 
 ---
 
