@@ -485,7 +485,10 @@ console.log("Dental AI Study — script loaded.");
 
 // ── Constants ────────────────────────────────────────────────────────────────
 
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwzdCuWyC2zjmyXKf8cSIScIERatfo4HS7EJeXSK8aAmn4zoVOqGGy3EspPktFNWtaZWw/exec";
+// ── Constants ────────────────────────────────────────────────────────────────
+
+// Replace the placeholder string below with your deployed Google Apps Script Web App URL
+const SCRIPT_URL = "YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL";
 // 3 interfaces × 4 cases = 12 trials total.
 const TOTAL_TRIALS       = 12;
 const CASES_PER_INTERFACE = 4;
@@ -676,20 +679,20 @@ function startExperiment() {
     // to counterbalance presentation order across participants.
     const rawTrials = [
         // ── Staged ──────────────────────────────────────────────────────────
-        { interface: 'Staged', type: 'Correct',   img: 'staged_correct_1.png',   groundTruth: 'Caries', aiText: 'Carious Lesion Detected' },
-        { interface: 'Staged', type: 'Correct',   img: 'staged_correct_2.png',   groundTruth: 'Sound',  aiText: 'No Lesion Detected' },
-        { interface: 'Staged', type: 'Incorrect', img: 'staged_incorrect_1.png', groundTruth: 'Caries', aiText: 'No Lesion Detected' },
-        { interface: 'Staged', type: 'Incorrect', img: 'staged_incorrect_2.png', groundTruth: 'Sound',  aiText: 'Carious Lesion Detected' },
+        { interface: 'Staged', type: 'Correct',   img: 'radiographs/staged_correct_1.png',   groundTruth: 'Caries', aiText: 'Carious Lesion Detected' },
+        { interface: 'Staged', type: 'Correct',   img: 'radiographs/staged_correct_2.png',   groundTruth: 'Sound',  aiText: 'No Lesion Detected' },
+        { interface: 'Staged', type: 'Incorrect', img: 'radiographs/staged_incorrect_1.png', groundTruth: 'Caries', aiText: 'No Lesion Detected' },
+        { interface: 'Staged', type: 'Incorrect', img: 'radiographs/staged_incorrect_2.png', groundTruth: 'Sound',  aiText: 'Carious Lesion Detected' },
         // ── Immediate ───────────────────────────────────────────────────────
-        { interface: 'Immediate', type: 'Correct',   img: 'immediate_correct_1.png',   groundTruth: 'Caries', aiText: 'Carious Lesion Detected' },
-        { interface: 'Immediate', type: 'Correct',   img: 'immediate_correct_2.png',   groundTruth: 'Sound',  aiText: 'No Lesion Detected' },
-        { interface: 'Immediate', type: 'Incorrect', img: 'immediate_incorrect_1.png', groundTruth: 'Sound',  aiText: 'Carious Lesion Detected' },
-        { interface: 'Immediate', type: 'Incorrect', img: 'immediate_incorrect_2.png', groundTruth: 'Caries', aiText: 'No Lesion Detected' },
+        { interface: 'Immediate', type: 'Correct',   img: 'radiographs/immediate_correct_1.png',   groundTruth: 'Caries', aiText: 'Carious Lesion Detected' },
+        { interface: 'Immediate', type: 'Correct',   img: 'radiographs/immediate_correct_2.png',   groundTruth: 'Sound',  aiText: 'No Lesion Detected' },
+        { interface: 'Immediate', type: 'Incorrect', img: 'radiographs/immediate_incorrect_1.png', groundTruth: 'Sound',  aiText: 'Carious Lesion Detected' },
+        { interface: 'Immediate', type: 'Incorrect', img: 'radiographs/immediate_incorrect_2.png', groundTruth: 'Caries', aiText: 'No Lesion Detected' },
         // ── Optional ────────────────────────────────────────────────────────
-        { interface: 'Optional', type: 'Correct',   img: 'optional_correct_1.png',   groundTruth: 'Caries', aiText: 'Carious Lesion Detected' },
-        { interface: 'Optional', type: 'Correct',   img: 'optional_correct_2.png',   groundTruth: 'Sound',  aiText: 'No Lesion Detected' },
-        { interface: 'Optional', type: 'Incorrect', img: 'optional_incorrect_1.png', groundTruth: 'Sound',  aiText: 'Carious Lesion Detected' },
-        { interface: 'Optional', type: 'Incorrect', img: 'optional_incorrect_2.png', groundTruth: 'Caries', aiText: 'No Lesion Detected' },
+        { interface: 'Optional', type: 'Correct',   img: 'radiographs/optional_correct_1.png',   groundTruth: 'Caries', aiText: 'Carious Lesion Detected' },
+        { interface: 'Optional', type: 'Correct',   img: 'radiographs/optional_correct_2.png',   groundTruth: 'Sound',  aiText: 'No Lesion Detected' },
+        { interface: 'Optional', type: 'Incorrect', img: 'radiographs/optional_incorrect_1.png', groundTruth: 'Sound',  aiText: 'Carious Lesion Detected' },
+        { interface: 'Optional', type: 'Incorrect', img: 'radiographs/optional_incorrect_2.png', groundTruth: 'Caries', aiText: 'No Lesion Detected' },
     ];
 
     // ── Fisher-Yates shuffle for uniform randomisation ──────────────────
