@@ -1,4 +1,4 @@
-# AI-Assisted CDSS Evaluation Tool: Overcoming Automation Bias
+# Evaluating User Interface Interventions in AI-Assisted CDSS to Mitigate Over-Reliance
 
 This data collection and testing tool was developed for evaluating Cognitive Forcing Functions (CFFs) in Artificial Intelligence-assisted Clinical Decision Support Systems (AI-CDSS) in Dentistry. Specifically, this application was built to simulate a dental diagnostic workflow (detecting proximal caries in bite-wing radiographs) to measure and mitigate clinician over-reliance on AI.
 
@@ -28,9 +28,9 @@ Participants evaluate 12 bitewing radiographs (4 per interface condition). *Note
 
 ### 5. Post-Task Questionnaires
 After completing the cases for a specific interface, participants complete 1-5 Likert scale surveys:
-      - Raw NASA-TLX (measuring Mental Demand, Temporal Demand, Performance, and Frustration).
-      - Overall Usefulness scale
-      - Ease of Use scale
+- Raw NASA-TLX (measuring Mental Demand, Temporal Demand, Performance, and Frustration).
+- Overall Usefulness scale
+- Ease of Use scale
 <p align="center"> <img src="images/post_task_ques_1.png" width="300"> </p>
 <p align="center"> <img src="images/post_task_quest_2.png" width="300"> </p>
 
