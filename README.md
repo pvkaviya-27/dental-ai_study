@@ -1,104 +1,59 @@
 # AI-Assisted CDSS Evaluation Tool: Overcoming Automation Bias
 
-This interactive online experimental data collection survey was developed for a Master's Thesis project at **Karolinska Institutet** to evaluate Cognitive Forcing Functions (CFFs) in Artificial Intelligence-assisted Clinical Decision Support Systems (AI-CDSS) within dentistry. 
+This data collection and testing tool was developed for evaluating Cognitive Forcing Functions (CFFs) in Artificial Intelligence-assisted Clinical Decision Support Systems (AI-CDSS) in Dentistry. Specifically, this application was built to simulate a dental diagnostic workflow (detecting proximal caries in bite-wing radiographs) to measure and mitigate clinician over-reliance on AI.
 
-The tool simulates a professional dental workflow where licensed dental practitioners diagnose proximal caries from a series of 12 bite-wing radiographs. It is designed to capture, measure, and analyze clinician over-reliance on AI recommendations (automation bias) across different interface conditions.
+## Features
 
----
+The tool acts as a simulated AI-CDSS and tests participants across three distinct User Interface (UI) conditions, employing Latin Square Design randomization to mitigate learning effects:
 
-## Tool Interface
+-	**Standard AI Interface (Control)**: The radiograph is presented alongside a simultaneous overlay of the AI's diagnostic recommendation. Designed to mimic standard "frictionless" workflows.
+  
+![01_standard_ui](images/standard.png)
+-	**Optional AI Interface (CFF 1)**: Introduces intentional cognitive friction. The user is presented with the radiograph and must explicitly click a button if they choose to view the AI output. ![02_optional_ui](images/optional.png)
+-	**Staged AI Interface (CFF 2)**: Forces analytical engagement. The AI recommendation is withheld until the user submits their initial, independent diagnosis. Afterward, the AI output is displayed, and the user is given the opportunity to submit a revised, final diagnosis. ![03_optional_ui](images/staged.png)
 
+## Experimental Workflow
 ### 1. Project Introduction
-The landing portal introducing the scope of the study. It discloses that the embedded AI assistant is 90% accurate in identifying proximal caries on bitewing radiographs and establishes task scope and criteria.
+The landing page introducing the scope of the study. It discloses that the embedded AI assistant is 90% accurate in identifying proximal caries on bitewing radiographs and establishes task scope and criteria.
 
-![01_intro_screen](images/intro_page.png)
-*Figure 1: Study objectives and task overview*
+![04_intro_screen](images/intro_page.png)
+*Figure 1: Study objectives, eligibility requirements, and task overview.*
 
 ### 2. Informed Consent
-Outlines regulatory and ethical bounds in compliance with the Declaration of Helsinki and GDPR, ensuring voluntary participation and complete tracking anonymity.
 
-![02_consent_screen](images/consent_page.png)
-*Figure 2: Digital informed consent*
+![05_consent_screen](images/consent_page.png)
+*Figure 2: Digital informed consent.*
 
-### 3. Participant Demographics
-Gathers demographic metrics (Age, Experience, Specialty) alongside an integrated 4-question psychometric baseline survey measuring prior cognitive affinity toward computer-aided health advice:
-*   **Trust Evaluation Scale (TAIS):** Quantifies prospective positive reliance on automated diagnostics.
-*   **Distrust Evaluation Scale (DTAIS):** Assesses user-perceived systemic risks and cognitive tension.
+### 3. Participant Details
+Collection of demographic data and professional details (Age, Years of Dental Experience, Dental Specialization), and a **Pre-Task Questionnaire -** Trust in AI-Generated Health Advice Scale.
+![06_demo_details_screen](images/parti_page.png)
 
-![03_demographics_screen](images/parti_page.png)
-*Figure 3: Participant Demographics*
+### 4. Diagnostic Task
+Participants evaluate 12 bitewing radiographs (4 per interface condition). *Note: To test for automation bias (Errors of Omission and Commission), 50% of the cases within each interface deliberately feature incorrect AI recommendations.*
 
-### 4. Blinded Interface Condition Introductions
-An intentional structural buffer is presented before each block of 4 cases. To counter observation bias, internal test conditions are mapped to dynamic user-facing labels (`Interface Type 1`, `Interface Type 2`, `Interface Type 3`) based on Latin Square Randomization.
+### 5. Post-Task Questionnaires
+After completing the cases for a specific interface, participants complete 1-5 Likert scale surveys:
+      - Raw NASA-TLX (measuring Mental Demand, Temporal Demand, Performance, and Frustration).
+      - Overall Usefulness scale
+      - Ease of Use scale
+![07_demo_details_screen](images/post_task_ques_1.png)
+![08_demo_details_screen](images/post_task_quest_2.png)
 
-![04_interface_intro_screen](images/interface_desc_page.png)
-*Figure 4: Interface description*
+### 6. Post Study Debrief
+After completing all the 12 cases, a debrief about the study mentioning its true purpose is displayed. 
+![09_demo_details_screen](images/debrief_page.png)
 
-### 5. Active Diagnostic Task Loop 
-The core diagnostic interface displaying bite-wing radiographs alongside an interactive the 3 interface conditions:
-*   **Standard Condition:** AI advice overlay is visible instantly.
-*   ![05_standard_screen](images/standard.png)
-*Figure 5: Standard Interface*
-*   **Optional Condition:** AI recommendations are hidden behind a manual click trigger.
-*   ![06_optional_screen](images/optional.png)
-*Figure 6: Optional Interface*
-*   **Staged Condition:** Forces a double-entry workflow where an initial diagnosis must be input to reveal the hidden AI recommendation, allowing for mid-trial diagnostic revision.
-*   ![07_staged_screen](images/staged.png)
-*Figure 7: Staged Interface*
+## Metrics
 
-### 6. Mental Workload Assessment
-Administered instantly at the end of each interface condition block. It uses a modified subjective raw NASA-TLX survey evaluating 6 key dimensions on a 1–5 Likert scale: *Usefulness, Ease of Use, Performance, Mental Demand, Temporal Demand, and Frustration*.
+- **Diagnostic Accuracy:** Recorded by comparing the user's final submitted diagnosis against the ground-truth label of the radiograph.
+- **Decision Time:** The total time taken (in seconds) to diagnose each individual case.
+- **Diagnosis Change Rate:** Tracking instances where a user alters their initial diagnosis after viewing the AI recommendation (specifically in the Staged interface).
 
-![08_workload_assessment_screen](images/post_task_ques_1.png)
-*Figure 8: Post-task subjective questionnaire*
+## Ethics 
 
-![09_workload_assessment_screen_2](images/post_task_quest_2.png)
-*Figure 9: Post-task subjective questionnaire*
+This application is designed in compliance with the General Data Protection Regulation (GDPR) and the Declaration of Helsinki.
+- Anonymization: All participant data (demographics, performance metrics) are strictly anonymized.
+- Consent: Digital informed consent is built into the first view of the application.
+- Data Sourcing: The radiographic images utilized in the application are derived from an existing validated dataset specifically for research purposes.
 
-### 7. Submission Confirmation & Ethical Debrief
-The final data transition window confirming anonymous packet transfer, followed by an explicit ethical debrief revealing the concealment mechanism (the fact that 50% of the AI suggestions were intentionally erroneous to track automation bias) along with formal institution contact avenues.
 
-![10_debrief_screen](images/debrief_page.png)
-*Figure 10: Full research disclosure*
-
----
-
-## Data Model & Metric Logging
-
-The schema transmitted downstream to the database endpoint structures transactional research indicators into an anonymous single object array:
-
-```json
-{
-  "pre": {
-    "age": "34",
-    "specialty": "Speciality Dentist",
-    "specialistType": "Endodontist",
-    "experience": "8",
-    "trust": { "tais1": "4", "tais2": "4" },
-    "distrust": { "dtais1": "2", "dtais2": "1" }
-  },
-  "groupOrder": ["Optional", "Staged", "Immediate"],
-  "trials": [
-    {
-      "interface": "Optional",
-      "type": "Incorrect",
-      "groundTruth": "Sound",
-      "aiText": "Carious Lesion Detected",
-      "initialDiagnosis": "Sound",
-      "initialTime": 4.821,
-      "finalDiagnosis": "Caries",
-      "timeToChange": 2.114,
-      "isCorrect": false
-    }
-  ],
-  "tlx": {
-    "Optional": {
-      "Usefulness": "3",
-      "Ease of Use": "4",
-      "Performance": "4",
-      "Mental Demand": "2",
-      "Temporal Demand": "1",
-      "Frustration": "1"
-    }
-  }
-}
