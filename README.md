@@ -6,27 +6,22 @@ This data collection and testing tool was developed for evaluating Cognitive For
 
 The tool acts as a simulated AI-CDSS and tests participants across three distinct User Interface (UI) conditions, employing Latin Square Design randomization to mitigate learning effects:
 
--	**Standard AI Interface (Control)**: The radiograph is presented alongside a simultaneous overlay of the AI's diagnostic recommendation. Designed to mimic standard "frictionless" workflows.
-  
-![01_standard_ui](images/standard.png)
--	**Optional AI Interface (CFF 1)**: Introduces intentional cognitive friction. The user is presented with the radiograph and must explicitly click a button if they choose to view the AI output. ![02_optional_ui](images/optional.png)
--	**Staged AI Interface (CFF 2)**: Forces analytical engagement. The AI recommendation is withheld until the user submits their initial, independent diagnosis. Afterward, the AI output is displayed, and the user is given the opportunity to submit a revised, final diagnosis. ![03_optional_ui](images/staged.png)
+-	**Standard AI Interface (Control)**: The radiograph is presented alongside a simultaneous overlay of the AI's diagnostic recommendation. Designed to mimic standard "frictionless" workflows. <p align="center"> <img src="images/standard.png" width="300"> </p>
+-	**Optional AI Interface (CFF 1)**: Introduces intentional cognitive friction. The user is presented with the radiograph and must explicitly click a button if they choose to view the AI output. <p align="center"> <img src="images/optional.png" width="300"> </p>
+-	**Staged AI Interface (CFF 2)**: Forces analytical engagement. The AI recommendation is withheld until the user submits their initial, independent diagnosis. Afterward, the AI output is displayed, and the user is given the opportunity to submit a revised, final diagnosis. <p align="center"> <img src="images/staged.png" width="300"> </p>
 
 ## Experimental Workflow
 ### 1. Project Introduction
 The landing page introducing the scope of the study. It discloses that the embedded AI assistant is 90% accurate in identifying proximal caries on bitewing radiographs and establishes task scope and criteria.
-
-![04_intro_screen](images/intro_page.png)
-*Figure 1: Study objectives, eligibility requirements, and task overview.*
+<p align="center"> <img src="images/intro_page.png" width="300"> </p>
 
 ### 2. Informed Consent
 
-![05_consent_screen](images/consent_page.png)
-*Figure 2: Digital informed consent.*
+<p align="center"> <img src="images/consent_page.png" width="300"> </p>
 
 ### 3. Participant Details
 Collection of demographic data and professional details (Age, Years of Dental Experience, Dental Specialization), and a **Pre-Task Questionnaire -** Trust in AI-Generated Health Advice Scale.
-![06_demo_details_screen](images/parti_page.png)
+<p align="center"> <img src="images/parti_page.png" width="300"> </p>
 
 ### 4. Diagnostic Task
 Participants evaluate 12 bitewing radiographs (4 per interface condition). *Note: To test for automation bias (Errors of Omission and Commission), 50% of the cases within each interface deliberately feature incorrect AI recommendations.*
@@ -36,12 +31,12 @@ After completing the cases for a specific interface, participants complete 1-5 L
       - Raw NASA-TLX (measuring Mental Demand, Temporal Demand, Performance, and Frustration).
       - Overall Usefulness scale
       - Ease of Use scale
-![07_demo_details_screen](images/post_task_ques_1.png)
-![08_demo_details_screen](images/post_task_quest_2.png)
+<p align="center"> <img src="images/post_task_ques_1.png" width="300"> </p>
+<p align="center"> <img src="images/post_task_quest_2.png" width="300"> </p>
 
 ### 6. Post Study Debrief
 After completing all the 12 cases, a debrief about the study mentioning its true purpose is displayed. 
-![09_demo_details_screen](images/debrief_page.png)
+<p align="center"> <img src="images/debrief_page.png" width="300"> </p>
 
 ## Metrics
 
